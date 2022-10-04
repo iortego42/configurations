@@ -1,2 +1,5 @@
 # configurations
-On this repo I will upload all my config files, from vim configurations to advanced scripts to automate different tasks
+Hey, hello!
+
+This is the parrot page, here I have all my important configuration files which might be usefull
+
