@@ -22,6 +22,7 @@ polybar memory -c ~/.config/polybar/main.ini &
 
 ## essentials.ini
 polybar onoff_menu -c ~/.config/polybar/main.ini &
+#polybar battery -c ~/.config/polybar/main.ini &
 
 ## workspace.ini
 polybar primary -c ~/.config/polybar/workspace.ini &
