@@ -2,15 +2,15 @@
 # Mac OS
 
 To use this configurations you should have installed this dependences:
-    ##### Sketchybar
+    ## **Sketchybar**
         Bar
-    ##### Yabai
+    ## **Yabai**
         Window Manager
-    ##### Skhd
+    ## **Skhd**
         Keymap
-    ##### Kitty
+    ## **Kitty**
         Terminal
-    ##### ZSH
+    ## **ZSH**
         Shell
 
 If you have any question just let me know :D
