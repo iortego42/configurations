@@ -1,0 +1,40 @@
+#
+# CONFIGURACION
+#
+
+#
+# REINICIAR SERVICIOS
+#
+cmd + lctrl - y : brew services restart yabai
+cmd + lctrl - s : brew services restart skhd
+cmd + lctrl - b : brew services restart sketchybar
+cmd + lctrl + alt - b : sketchybar --update
+
+#
+# ESPACIOS
+#
+lctrl + alt - left : yabai -m space --focus prev
+lctrl + alt - right : yabai -m space --focus next 
+lctrl + alt - n : yabai -m space --create
+lctrl + alt - q : yabai -m space --destroy
+#
+# MOVER VENTANAS A ESCRITORIOS 
+cmd + shift - 1 : yabai -m window --space 1
+cmd + shift - 2 : yabai -m window --space 2
+cmd + shift - 3 : yabai -m window --space 3
+cmd + shift - 4 : yabai -m window --space 4
+cmd + shift - 5 : yabai -m window --space 5
+cmd + shift - 6 : yabai -m window --space 6
+cmd + shift - 7 : yabai -m window --space 7
+cmd + shift - 8 : yabai -m window --space 8
+cmd + shift - 9 : yabai -m window --space 9
+cmd + shift - 0 : yabai -m window --space 10
+
+#
+# APPLICACIONES
+#
+alt + shift - k : open -a 'kitty'
+alt + shift - o : open -a 'Obsidian' 
+alt + shift - f : open -a 'Brave Browser'
+alt + shift - a : open -a 'System Settings'
+
