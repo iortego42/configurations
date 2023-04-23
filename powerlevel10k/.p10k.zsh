@@ -34,10 +34,10 @@
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
     # =========================[ Line #1 ]=========================
     os_icon                 # os identifier
-    dir                     # current directory
+    # dir                     # current directory
     vcs                     # git status
-    status
     context
+    status 
     # =========================[ Line #2 ]=========================
     newline                 # \n
     command_execution_time  # duration of the last command
@@ -50,13 +50,14 @@
   # last prompt line gets hidden if it would overlap with left prompt.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
     # =========================[ Line #1 ]=========================
+    dir
     # status                  # exit code of the last command
     # background_jobs         # presence of background jobs
     # direnv                  # direnv status (https://direnv.net/)
     # asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
-    # virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
+     virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
     # anaconda                # conda environment (https://conda.io/)
-    # pyenv                   # python environment (https://github.com/pyenv/pyenv)
+     pyenv                   # python environment (https://github.com/pyenv/pyenv)
     # goenv                   # go environment (https://github.com/syndbg/goenv)
     # nodenv                  # node.js version from nodenv (https://github.com/nodenv/nodenv)
     # nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
@@ -182,14 +183,19 @@
   # The right end of right prompt.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_LAST_SEGMENT_END_SYMBOL='\uE0B0'
   # Left prompt terminator for lines without any segments.
-  typeset -g POWERLEVEL9K_EMPTY_LINE_LEFT_PROMPT_LAST_SEGMENT_END_SYMBOL=
+  typeset -g POWERLEVEL9K_EMPTY_LINE_LEFT_PROMPT_LAST_SEGMENT_END_SYMBOL=''
 
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color.
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=255
-  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=196
+  # typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=255
+  # typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=196
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=233
+  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=11
   # Custom icon.
-  typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='' #''
+  typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=''
+  # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='' 
+  # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=''
+  # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=''
 
   ################################[ prompt_char: prompt symbol ]################################
   # Transparent background.
@@ -907,26 +913,26 @@
 
   ##################################[ context: user@hostname ]##################################
   # Context color when running with privileges.
-  typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=1
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=3
   typeset -g POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND=243
   # Context color in SSH without privileges.
   typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_FOREGROUND=3
   typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_BACKGROUND=243
   # Default context color (no privileges, no SSH).
-  typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=3
+  typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=255
   typeset -g POWERLEVEL9K_CONTEXT_BACKGROUND=243
 
   # Context format when running with privileges: user@hostname.
   # typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%n@%m'
-  typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%F{yellow}%f' # '%F{yellow}%f'
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%B%n%b%F{yellow}  %f%B%F{21}%m%f%b' # '%F{yellow}%f'
   # Context format when in SSH without privileges: user@hostname.
   typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_TEMPLATE='%n@%m'
   # Default context format (no privileges, no SSH): user@hostname.
-  typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE='%n@%m'
+  typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE='%n%F{105}@%f%B%F{21}%m%f%b'
 
   # Don't show context unless running with privileges or in SSH.
   # Tip: Remove the next line to always show context.
-  typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,SUDO}_{CONTENT,VISUAL_IDENTIFIER}_EXPANSION=
+  # typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,SUDO}_{CONTENT,VISUAL_IDENTIFIER}_EXPANSION=
 
   # Custom icon.
   # typeset -g POWERLEVEL9K_CONTEXT_VISUAL_IDENTIFIER_EXPANSION='⭐'
