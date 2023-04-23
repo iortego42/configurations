@@ -141,9 +141,9 @@
 
   # Connect left prompt lines with these symbols. You'll probably want to use the same color
   # as POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND below.
-  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX='%238F╭─'
-  typeset -g POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_PREFIX='%238F├─'
-  typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='%238F╰─'
+  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX='%51F╭─'
+  typeset -g POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_PREFIX='%51F├─'
+  typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='%51F╰─'
   # Connect right prompt lines with these symbols.
   typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_SUFFIX=
   typeset -g POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_SUFFIX=
@@ -153,13 +153,13 @@
   # '─'. The last two make it easier to see the alignment between left and right prompt and to
   # separate prompt from command output. You might want to set POWERLEVEL9K_PROMPT_ADD_NEWLINE=false
   # for more compact prompt if using this option.
-  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR=''
+  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR='─'
   typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_BACKGROUND=
   typeset -g POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_GAP_BACKGROUND=
   if [[ $POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR != ' ' ]]; then
     # The color of the filler. You'll probably want to match the color of POWERLEVEL9K_MULTILINE
     # ornaments defined above.
-    typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND=
+    typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND=1
     # Start filler from the edge of the screen if there are no left segments on the first line.
     typeset -g POWERLEVEL9K_EMPTY_LINE_LEFT_PROMPT_FIRST_SEGMENT_END_SYMBOL='%{%}'
     # End filler on the edge of the screen if there are no right segments on the first line.
@@ -167,21 +167,22 @@
   fi
 
   # Separator between same-color segments on the left.
-  typeset -g POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR=''
+  typeset -g POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR='%F{red}󱖲%f'
+  # typeset -g POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR='%F{red}󰒗%f'
   # Separator between same-color segments on the right.
   typeset -g POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR='\u2571'
   # Separator between different-color segments on the left.
-  typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR='\uE0B8'
+  typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR='%F{51}%K{60}|'
   # Separator between different-color segments on the right.
-  typeset -g POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR='\uE0BA'
+  typeset -g POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR='\uE0B6'
   # The right end of left prompt.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_LAST_SEGMENT_END_SYMBOL='\uE0B0'
   # The left end of right prompt.
-  typeset -g POWERLEVEL9K_RIGHT_PROMPT_FIRST_SEGMENT_START_SYMBOL='\uE0BA'
+  typeset -g POWERLEVEL9K_RIGHT_PROMPT_FIRST_SEGMENT_START_SYMBOL='\uE0B2'
   # The left end of left prompt.
-  typeset -g POWERLEVEL9K_LEFT_PROMPT_FIRST_SEGMENT_START_SYMBOL='\uE0BE'
+  typeset -g POWERLEVEL9K_LEFT_PROMPT_FIRST_SEGMENT_START_SYMBOL='\uE0B2'
   # The right end of right prompt.
-  typeset -g POWERLEVEL9K_RIGHT_PROMPT_LAST_SEGMENT_END_SYMBOL='\uE0B0'
+  typeset -g POWERLEVEL9K_RIGHT_PROMPT_LAST_SEGMENT_END_SYMBOL='\uE0B8'
   # Left prompt terminator for lines without any segments.
   typeset -g POWERLEVEL9K_EMPTY_LINE_LEFT_PROMPT_LAST_SEGMENT_END_SYMBOL=''
 
@@ -189,8 +190,9 @@
   # OS identifier color.
   # typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=255
   # typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=196
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=233
-  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=11
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=123
+  # typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=11
+  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=60
   # Custom icon.
   typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=''
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='' 
@@ -201,11 +203,11 @@
   # Transparent background.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_BACKGROUND=
   # Green prompt symbol if the last command succeeded.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=76
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=51
   # Red prompt symbol if the last command failed.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=196
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=1
   # Default prompt symbol.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='❯'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION=' '
   # Prompt symbol in command vi mode.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VICMD_CONTENT_EXPANSION='❮'
   # Prompt symbol in visual vi mode.
@@ -222,7 +224,7 @@
 
   ##################################[ dir: current directory ]##################################
   # Current directory background color.
-  typeset -g POWERLEVEL9K_DIR_BACKGROUND=243
+  typeset -g POWERLEVEL9K_DIR_BACKGROUND=60
   # Default current directory foreground color.
   typeset -g POWERLEVEL9K_DIR_FOREGROUND=254
   # If directory is too long, shorten some of its segments to the shortest possible unique
@@ -512,23 +514,23 @@
   # Status on success. No content, just an icon. No need to show it if prompt_char is enabled as
   # it will signify success by turning green.
   typeset -g POWERLEVEL9K_STATUS_OK=true
-  typeset -g POWERLEVEL9K_STATUS_OK_VISUAL_IDENTIFIER_EXPANSION=''
+  typeset -g POWERLEVEL9K_STATUS_OK_VISUAL_IDENTIFIER_EXPANSION=''
   typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND=2
-  typeset -g POWERLEVEL9K_STATUS_OK_BACKGROUND=243
+  typeset -g POWERLEVEL9K_STATUS_OK_BACKGROUND=60
 
   # Status when some part of a pipe command fails but the overall exit status is zero. It may look
   # like this: 1|0.
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE=true
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE_VISUAL_IDENTIFIER_EXPANSION='✔'
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND=2
-  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_BACKGROUND=243
+  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_BACKGROUND=60
 
   # Status when it's just an error code (e.g., '1'). No need to show it if prompt_char is enabled as
   # it will signify error by turning red.
   typeset -g POWERLEVEL9K_STATUS_ERROR=true
-  typeset -g POWERLEVEL9K_STATUS_ERROR_VISUAL_IDENTIFIER_EXPANSION='✘'
-  typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND=1
-  typeset -g POWERLEVEL9K_STATUS_ERROR_BACKGROUND=243
+  typeset -g POWERLEVEL9K_STATUS_ERROR_VISUAL_IDENTIFIER_EXPANSION='%F{2}󰯉%f'
+  typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND=129
+  typeset -g POWERLEVEL9K_STATUS_ERROR_BACKGROUND=
 
   # Status when the last command was terminated by a signal.
   typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL=true
@@ -914,21 +916,21 @@
   ##################################[ context: user@hostname ]##################################
   # Context color when running with privileges.
   typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=3
-  typeset -g POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND=243
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND=60
   # Context color in SSH without privileges.
   typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_FOREGROUND=3
-  typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_BACKGROUND=243
+  typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_BACKGROUND=60
   # Default context color (no privileges, no SSH).
   typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=255
-  typeset -g POWERLEVEL9K_CONTEXT_BACKGROUND=243
+  typeset -g POWERLEVEL9K_CONTEXT_BACKGROUND=60
 
   # Context format when running with privileges: user@hostname.
   # typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%n@%m'
-  typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%B%n%b%F{yellow}  %f%B%F{21}%m%f%b' # '%F{yellow}%f'
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%B%n%b%F{51} 󰹻 %f%B%F{56}%m%f%b' # '%F{yellow}%f'
   # Context format when in SSH without privileges: user@hostname.
   typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_TEMPLATE='%n@%m'
   # Default context format (no privileges, no SSH): user@hostname.
-  typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE='%n%F{105}@%f%B%F{21}%m%f%b'
+  typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE='%n%F{51} 󰹻 %f%B%F{56}%m%f%b'
 
   # Don't show context unless running with privileges or in SSH.
   # Tip: Remove the next line to always show context.
