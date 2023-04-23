@@ -3,14 +3,14 @@
 
 To use this configurations you should have installed this dependences:
 ## **Sketchybar**
-    Bar
+Bar
 ## **Yabai**
-    Window Manager
+Window Manager
 ## **Skhd**
-    Keymap
+Keymap
 ## **Kitty**
-    Terminal
+Terminal
 ## **ZSH**
-    Shell
+ZSH
 
 If you have any question just let me know :D
