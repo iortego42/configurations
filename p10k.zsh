@@ -142,9 +142,9 @@
 
   # Connect left prompt lines with these symbols. You'll probably want to use the same color
   # as POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND below.
-  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX='%51F╭─'
-  typeset -g POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_PREFIX='%51F├─'
-  typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='%51F╰─'
+  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX='%2F╭─'
+  typeset -g POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_PREFIX='%2F├─'
+  typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='%2F╰─'
   # Connect right prompt lines with these symbols.
   typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_SUFFIX=
   typeset -g POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_SUFFIX=
@@ -160,7 +160,7 @@
   if [[ $POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR != ' ' ]]; then
     # The color of the filler. You'll probably want to match the color of POWERLEVEL9K_MULTILINE
     # ornaments defined above.
-    typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND=1
+    typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND=22
     # Start filler from the edge of the screen if there are no left segments on the first line.
     typeset -g POWERLEVEL9K_EMPTY_LINE_LEFT_PROMPT_FIRST_SEGMENT_END_SYMBOL='%{%}'
     # End filler on the edge of the screen if there are no right segments on the first line.
@@ -168,16 +168,17 @@
   fi
 
   # Separator between same-color segments on the left.
-  typeset -g POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR='%F{red}󱖲%f'
+  typeset -g POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR='%F{119} %f'
   # typeset -g POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR='%F{red}󰒗%f'
   # Separator between same-color segments on the right.
   typeset -g POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR='\u2571'
   # Separator between different-color segments on the left.
-  typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR='%F{51}%K{60}|'
+  typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR='\uE0B8'
+  # typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR='%F{22}%K{22}|'
   # Separator between different-color segments on the right.
   typeset -g POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR='\uE0B6'
   # The right end of left prompt.
-  typeset -g POWERLEVEL9K_LEFT_PROMPT_LAST_SEGMENT_END_SYMBOL='\uE0B0'
+  typeset -g POWERLEVEL9K_LEFT_PROMPT_LAST_SEGMENT_END_SYMBOL='%F{22}\uE0B0'
   # The left end of right prompt.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_FIRST_SEGMENT_START_SYMBOL='\uE0B2'
   # The left end of left prompt.
@@ -191,9 +192,9 @@
   # OS identifier color.
   # typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=255
   # typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=196
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=123
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=46
   # typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=11
-  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=60
+  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=22
   # Custom icon.
   typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=''
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='' 
@@ -204,11 +205,14 @@
   # Transparent background.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_BACKGROUND=
   # Green prompt symbol if the last command succeeded.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=51
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=2
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=1
   # Default prompt symbol.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION=' '
+  # typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION=' '
+  # typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION=' '
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_VIINS_CONTENT_EXPANSION='󱚣'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_VIINS_CONTENT_EXPANSION='󱚡'
   # Prompt symbol in command vi mode.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VICMD_CONTENT_EXPANSION='❮'
   # Prompt symbol in visual vi mode.
@@ -225,7 +229,7 @@
 
   ##################################[ dir: current directory ]##################################
   # Current directory background color.
-  typeset -g POWERLEVEL9K_DIR_BACKGROUND=60
+  typeset -g POWERLEVEL9K_DIR_BACKGROUND=22
   # Default current directory foreground color.
   typeset -g POWERLEVEL9K_DIR_FOREGROUND=254
   # If directory is too long, shorten some of its segments to the shortest possible unique
@@ -516,20 +520,20 @@
   # it will signify success by turning green.
   typeset -g POWERLEVEL9K_STATUS_OK=true
   typeset -g POWERLEVEL9K_STATUS_OK_VISUAL_IDENTIFIER_EXPANSION=''
-  typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND=2
-  typeset -g POWERLEVEL9K_STATUS_OK_BACKGROUND=60
+  typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND=10
+  typeset -g POWERLEVEL9K_STATUS_OK_BACKGROUND=22
 
   # Status when some part of a pipe command fails but the overall exit status is zero. It may look
   # like this: 1|0.
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE=true
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE_VISUAL_IDENTIFIER_EXPANSION='✔'
-  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND=2
-  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_BACKGROUND=60
+  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND=10
+  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_BACKGROUND=22
 
   # Status when it's just an error code (e.g., '1'). No need to show it if prompt_char is enabled as
   # it will signify error by turning red.
   typeset -g POWERLEVEL9K_STATUS_ERROR=true
-  typeset -g POWERLEVEL9K_STATUS_ERROR_VISUAL_IDENTIFIER_EXPANSION='%F{2}󰯉%f'
+  typeset -g POWERLEVEL9K_STATUS_ERROR_VISUAL_IDENTIFIER_EXPANSION='%F{197}󰠭%f'
   typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND=129
   typeset -g POWERLEVEL9K_STATUS_ERROR_BACKGROUND=
 
@@ -917,21 +921,21 @@
   ##################################[ context: user@hostname ]##################################
   # Context color when running with privileges.
   typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=3
-  typeset -g POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND=60
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND=22
   # Context color in SSH without privileges.
   typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_FOREGROUND=3
-  typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_BACKGROUND=60
+  typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_BACKGROUND=22
   # Default context color (no privileges, no SSH).
   typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=255
-  typeset -g POWERLEVEL9K_CONTEXT_BACKGROUND=60
+  typeset -g POWERLEVEL9K_CONTEXT_BACKGROUND=22
 
   # Context format when running with privileges: user@hostname.
   # typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%n@%m'
-  typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%B%n%b%F{51} 󰹻 %f%B%F{56}%m%f%b' # '%F{yellow}%f'
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%B%n%b%F{10} 󰹻 %f%B%F{156}%m%f%b' # '%F{yellow}%f'
   # Context format when in SSH without privileges: user@hostname.
   typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_TEMPLATE='%n@%m'
   # Default context format (no privileges, no SSH): user@hostname.
-  typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE='%n%F{51} 󰹻 %f%B%F{56}%m%f%b'
+  typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE='%n%F{10} 󰹻 %f%B%F{156}%m%f%b'
 
   # Don't show context unless running with privileges or in SSH.
   # Tip: Remove the next line to always show context.
@@ -1499,7 +1503,7 @@
   # Send a request to Google (by means of `gcloud projects describe ...`) to obtain project name
   # this often. Negative value disables periodic polling. In this mode project name is retrieved
   # only when the current configuration, account or project id changes.
-  typeset -g POWERLEVEL9K_GCLOUD_REFRESH_PROJECT_NAME_SECONDS=60
+  typeset -g POWERLEVEL9K_GCLOUD_REFRESH_PROJECT_NAME_SECONDS=22
 
   # Custom icon.
   # typeset -g POWERLEVEL9K_GCLOUD_VISUAL_IDENTIFIER_EXPANSION='⭐'
@@ -1633,7 +1637,7 @@
   # Show battery in yellow when it's discharging.
   typeset -g POWERLEVEL9K_BATTERY_DISCONNECTED_FOREGROUND=3
   # Battery pictograms going from low to high level of charge.
-  typeset -g POWERLEVEL9K_BATTERY_STAGES='\uf58d\uf579\uf57a\uf57b\uf57c\uf57d\uf57e\uf57f\uf580\uf581\uf578'
+  typeset -g POWERLEVEL9K_BATTERY_STAGES='\uf22d\uf579\uf57a\uf57b\uf57c\uf57d\uf57e\uf57f\uf220\uf221\uf578'
   # Don't show the remaining time to charge/discharge.
   typeset -g POWERLEVEL9K_BATTERY_VERBOSE=false
   typeset -g POWERLEVEL9K_BATTERY_BACKGROUND=0
@@ -1669,7 +1673,7 @@
   # Current time color.
   typeset -g POWERLEVEL9K_TIME_FOREGROUND=0
   typeset -g POWERLEVEL9K_TIME_BACKGROUND=7
-  # Format for the current time: 09:51:02. See `man 3 strftime`.
+  # Format for the current time: 09:22:02. See `man 3 strftime`.
   typeset -g POWERLEVEL9K_TIME_FORMAT='%D{%H:%M:%S}'
   # If set to true, time will update when you hit enter. This way prompts for the past
   # commands will contain the start times of their commands as opposed to the default
