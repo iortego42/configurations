@@ -83,8 +83,25 @@ alias ll='lsd -lhF --group-dirs=first'
 alias la='lsd -laF --group-dirs=first'
 alias l='lsd -F --group-dirs=first'
 
+
+
+
+function putFG(){
+  foreground=$1
+  f_seq="\033[38;5;${foreground}m"
+  echo -n "${f_seq}"
+}
+function putBG(){
+  background=$1
+  b_seq="\033[38;5;${background}m"
+  echo -n "${b_seq}"
+}
 function prompt() {
   local status=$?
+  R="\033[0m"
+  promptFG=208
+  iconFG=3
+
   cols=$(tput cols)
   chars=$(( cols - ${#L1_l} - ${#UP_l}))
   line=""
@@ -92,13 +109,15 @@ function prompt() {
     line+="─"
   done
   if [ "$USER" == "root" ]; then
-    UP="\033[38;5;33m⦗\033[38;5;33m"$'\uf06e'" \033[38;5;33m⦘"
-    UP_l="⦗"$'\uf06e'" ⦘"
+    iconFG=140
+    icon=$'\uf06e'
   else
-    UP="\033[38;5;33m⦗\033[38;5;117m󰀶 \033[38;5;33m⦘"
-    UP_l="⦗󰀶 ⦘"
+    iconFG=39
+    icon=$''
   fi
-  L1="\033[38;5;33m"$'\u250C'"⦗\033[0m$PWD\033[38;5;33m⦘"
+  UP="$(putFG $promptFG)⦗$(putFG $iconFG)$icon$(putFG $promptFG)⦘"
+  UP_l="⦗$icon⦘"
+  L1="$(putFG $promptFG)"$'\u250C'"⦗$R$PWD$(putFG $promptFG)⦘"
   L1_l="[$PWD]"
   cols=$(tput cols)
   chars=$(( cols - ${#L1_l} - ${#UP_l}))
@@ -107,9 +126,9 @@ function prompt() {
     line+="─"
   done
   if [ $status -eq 0 ]; then
-    PS1="$L1$line$UP\n"$'\u2514\u2500'" \033[0m"
+    PS1="$L1$line$UP\n"$'\u2514\u2500'" $R"
   else
-    PS1="$L1$line$UP\n"$'\u2514\u2500'"❨\033[31m󰃤\033[0m $status \033[38;5;33m❩\033[31m \033[0m"
+    PS1="$L1$line$UP\n"$'\u2514\u2500'"❨$(putFG 1)$R $status $(putFG $promptFG)❩$(putFG 1) $R"
   fi
 }
 PROMPT_COMMAND=prompt
