@@ -14,3 +14,4 @@ Terminal
 ZSH
 
 If you have any question just let me know :D
+prueba
