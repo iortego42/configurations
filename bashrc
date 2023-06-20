@@ -67,14 +67,18 @@ export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
 export PATH="$PATH:/usr/local/bin"
 # HOMEBREW
 eval "$(/opt/homebrew/bin/brew shellenv)"
-# RBENV
-export PATH="/Users/nachh/.rbenv/versions/3.2.1/bin:$PATH"
+# Ruby Version Manager
+export PATH="$HOME/.rvm/bin:$PATH"
 # BINARIOS PROPIOS
 export PATH="$HOME/.config/bin:$PATH"
 # FINDUTILS
 export PATH="/opt/homebrew/opt/findutils/libexec/gnubin:$PATH"
 #VMWARE OVF TOOLS
 export PATH="$PATH:/Applications/VMware OVF Tool"
+#PIPx Binarios
+export PATH="$PATH:$HOME/.local/bin"
+#Binarios Arch64
+export PATH="$PATH:/usr/local/opt/brew/bin"
 # alias
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -102,6 +106,7 @@ function putBG(){
   echo -n "${b_seq}"
 }
 
+bold="\[\033[1m\]"
 R="\[\033[0m\]"
 function parse_git_branch() {
   local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
@@ -130,11 +135,28 @@ function parse_git_branch() {
   fi
 }
 
+
+
+
+# Line character
+L='─'
+# Right Delimitor
+RD=']'
+# Left Delimitor
+LD='['
+# Other Right Delimitor
+OLD='┨'
+# Other Left Delimitor 
+ORD='┠'
+promptFG=42
+
+
 function workspace()
 {
+  local WSIC=$1
   local WSinfo=""
-  if [ -d "$1" ]; then
-    WSinfo+="$(putFG $WSIC)$R$(echo -n $1 | awk -F'/' '{print $NF}')"
+  if [ -d "$WS" ]; then
+    WSinfo+="$(putFG $WSIC)$(echo -n $WS | awk -F'/' '{print $NF}')"
   fi
   echo -n "$WSinfo"
 }
@@ -145,28 +167,35 @@ function stripColors(){
   echo -n "$str"
 }
 
+function user() {
+  local UP="$L$LD"
+  local usernamecolor=255 
+  if [ "$USER" == "root" ]; then
+    usernamecolor=1
+    UP+=$bold
+  fi
+  UP+="$(putFG $usernamecolor)$USER$R"
+  if [ -n "$WS" ]; then
+    local wscolor=39
+    UP+="$bold@$R$(workspace $wscolor)"
+  fi
+  UP+="$(putFG $promptFG)$RD"
+  echo -n "$UP"
+}
+
 function prompt() {
   local status=$?
-  promptFG=124
-  # Right Delimitor
-  RD='⦗'
-  # Left Delimitor
-  LD='⦘'
-  # Other Right Delimitor
-  ORD='┨'
-  # Other Left Delimitor 
-  OLD='┠'
-  if [ "$USER" == "root" ]; then
-    iconFG=140
-    icon=$'\uf06e'
+  if [ "$USER" != "root" ]; then
+    iconFG=27
+    icon=$' '
   else
-    iconFG=220
-    icon=$''
+    iconFG=1
+    icon=$' '
   fi
   #Github Prompt
-  GS="$(git status 2>/dev/null | grep 'On branch')"
-  GP=""
-  GP_l=""
+  local GS="$(git status 2>/dev/null | grep 'On branch')"
+  local GP=""
+  local GP_l=""
   if [ -n "$GS" ]; then
     #Github Icon
     GI=""
@@ -178,44 +207,48 @@ function prompt() {
     GP_l="$(echo -n $GP | sed -E 's/\\\[\\033\[[0-9;]*m\\\]//g')"
   fi
   # User Prompt
-  UP="$(putFG $promptFG)⦗ $(putFG $iconFG)$icon$(putFG $promptFG) ⦘"
-  UP_l="⦗ $icon ⦘"
+  local UP="$(putFG $promptFG)($(putFG $iconFG)$bold$icon$R$(putFG $promptFG))"
+  local UP_l="$(echo -n $UP | sed -E 's/\\\[\\033\[[0-9;]*m\\\]//g')"
   # Line 1
-  L1="$(putFG $promptFG)"$'\u250C'
-  # Directory propmt
-  if [ -n "$(echo -n $PWD | grep "$HOME")" ]; then
-    if [ "$PWD" == "$HOME" ]; then
-      DIR="󰀶"
-    else
-      DIR=$(echo -n $PWD | sed -E "s#$HOME#󰀶 #")
-    fi
-  else
-    DIR=$PWD
-  fi
-  DC=7
-  DP="⦗ $(putFG $DC)$DIR$R$(putFG $promptFG) ⦘"
-  DP_l="$(echo -n "$DP" | sed -E 's/\\\[\\033\[[0-9;]*m\\\]//g')"
-  
+  local L1="$(putFG $promptFG)"$'\u250C'"$L"
+
   # Workspace Icon
-  WSicon=""
-  WSIC=69
+  local WSicon=""
+  local WSIC=46
   # Workspace Prompt
-  WP=""
+  local WP=""
   export WS="$(cat /users/nachh/.local/workspace.txt)"
   if [ -d "$WS" ]; then
     # Workspace Prompt
-    WP="$RD $(putFG $WSIC)${WSicon} $(putFG 7)$(workspace $WS)$(putFG $promptFG) $LD"
+    WP="$L$LD$(putFG $WSIC)${WSicon} $(putFG 7)$(workspace)$(putFG $promptFG)$RD"
   fi
-  WP_l="$(echo -n "$WP" | sed -E 's/\\\[\\033\[[0-9;]*m\\\]//g')"
-  cols=$(tput cols)
-  chars=$(( cols - ${#DP_l} - ${#UP_l} - ${#GP_l} - ${#WP_l}))
-  line=""
-  for ((i = 1; i < chars; i++)); do
-    line+="─"
+  WP="$(user)"
+  local WP_l="$(echo -n "$WP" | sed -E 's/\\\[\\033\[[0-9;]*m\\\]//g')"
+
+  # Directory propmt
+  local DIR=""
+  if [ -n "$(echo -n $PWD | grep $WS)" ]; then
+    DIR=$(echo -n $PWD | sed -E "s#$WS##")
+  elif [ -n "$(echo -n $PWD | grep "$HOME")" ]; then
+    DIR=$(echo -n $PWD | sed -E "s#$HOME#󰀶#")
+  else
+    DIR=$PWD
+  fi
+  local DC=7
+  local DP="$L$LD$(putFG $DC)$DIR$R$(putFG $promptFG)$RD"
+  local DP_l="$(echo -n "$DP" | sed -E 's/\\\[\\033\[[0-9;]*m\\\]//g')"
+  
+  local cols=$(tput cols)
+  local chars=$(( cols - ${#DP_l} - ${#UP_l} - ${#GP_l} - ${#WP_l}))
+  local line=""
+  for ((i = 2; i < chars; i++)); do
+    line+=$L
   done
+  local ECFG=""
+  local EP=""
   if [ $status -eq 0 ]; then
     # Error Color
-    ECFG=$promptFG
+    ECFG=$iconFG
     # Error Prompt
     EP=""
     # PS1="$L1$line$UP\n"$'\u2514\u2500'" $R"
@@ -223,15 +256,15 @@ function prompt() {
     # Error Color
     ECFG=196
     # Error Prompt
-    EP="❨$(putFG $ECFG)󰃤$R $status $(putFG $promptFG)❩"
+    EP="($(putFG $ECFG)$bold[x]$R $status$(putFG $promptFG))"
     # PS1="$L1$line$UP\n"$'\u2514\u2500'"❨$(putFG 1)󰃤$R $status $(putFG $promptFG)❩$(putFG 1)$R "
   fi
   # Input Char
-  IC="$(putFG $ECFG)$R "
+  local IC="$(putFG $ECFG)$bold\$$R"
   # Line Union
-  LU=$'\u2514\u2500'
+  local LU=$'\u2514\u2500'
   # Prompt String 1
-  PS1="$L1$DP$GP$line$WP$UP\n$LU$EP$IC"
+  PS1="$L1$WP$DP$GP$line$UP\n$LU$EP$IC"
 }
 
 PROMPT_COMMAND=prompt
