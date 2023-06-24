@@ -1,114 +1,17 @@
-set termguicolors
-function settarget() {
-  echo "$1" > /Users/nachh/.local/target.txt
-  export TARGET="$(cat /Users/nachh/.local/target.txt)"
-}
-
-function cleartarget() {
-  echo "$1" > /Users/nachh/.local/target.txt
-  export TARGET="$(cat /Users/nachh/.local/target.txt)"
-}
-
-function setws() {
-  if [ -d "$1" ]; then
-    export WS="$1";
-  else
-    export WS="$(pwd)"
-  fi
-  echo "$WS" >  /Users/nachh/.local/workspace.txt
-}
-
-function clearws(){
-  echo "" >  /Users/nachh/.local/workspace.txt
-}
-
-function cdws() {
-  export WS=$(cat /Users/nachh/.local/workspace.txt)
-  if [ -z $WS ]; then 
-    echo "ERROR: No hay ningun espacio de trabajo"
-  else
-    cd $WS
-  fi
-}
-
-function hex-encode() {
-  echo "$@" | xxd -p
-}
-
-function hex-decode() {
-  echo "$@" | xxd -p -r
-}
-function showcolors() {
-  for i in {0..255}; do 
-    print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}
-  done
-
-}
-function rot13() {
-  echo "$@" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
-}
-
-function mkws() {
-  mkdir -p $1/{nmap,content,exploits,Imgs}
-}
-
-export TARGET="$(cat /Users/nachh/.local/target.txt)"
-export WS="$(cat /users/nachh/.local/workspace.txt)"
-#
-# INCLUSION BINARIOS
-#
-# PYTHON TO PYTHON3
-export PATH="/opt/homebrew/opt/python@3.11/libexec/bin:$PATH"
-# JOHN tools
-export PATH="/opt/homebrew/Cellar/john-jumbo/1.9.0_1/share/john:$PATH"
-# OPENSSL PATH
-export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
-# ERROR PATH DOCKER 
-export PATH="$PATH:/usr/local/bin"
-# HOMEBREW
-eval "$(/opt/homebrew/bin/brew shellenv)"
-# Ruby Version Manager
-export PATH="$HOME/.rvm/bin:$PATH"
-# BINARIOS PROPIOS
-export PATH="$HOME/.config/bin:$PATH"
-# FINDUTILS
-export PATH="/opt/homebrew/opt/findutils/libexec/gnubin:$PATH"
-#VMWARE OVF TOOLS
-export PATH="$PATH:/Applications/VMware OVF Tool"
-#PIPx Binarios
-export PATH="$PATH:$HOME/.local/bin"
-#Binarios Arch64
-export PATH="$PATH:/usr/local/opt/brew/bin"
-# alias
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-#
-#-------/ CUSTOM ALIASES /-------
-#
-alias bashcolors='for ((i=0; i<256; i++)); do printf "\e[48;5;%dm\e[38;5;15m%3d\e[0m " "$i" "$i"; if (( (i+1) % 16 == 0 )); then echo; fi; done'
-alias ls='ls -G'
-alias ll='lsd -lhF --group-dirs=first'
-alias la='lsd -laF --group-dirs=first'
-alias l='lsd -F --group-dirs=first'
-
-
-
-
 function putFG(){
   foreground=$1
-  f_seq="\[\033[38;5;${foreground}m\]"
-  echo -n "${f_seq}"
+  f_seq="%F{$foreground}"
+  echo -n "$f_seq"
 }
 function putBG(){
   background=$1
-  b_seq="\[\033[38;5;${background}m\]"
-  echo -n "${b_seq}"
+  b_seq="\[\e[38;5;${background}m\]"
+  echo -en "${b_seq}"
 }
 
-italic="\[\033[3m\]"
-bold="\[\033[1m\]"
-R="\[\033[0m\]"
+italic="\[\e[3m\]"
+bold="%B"
+R="%f%b"
 function parse_git_branch() {
   local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
   if [ -n "$branch" ]; then
@@ -153,7 +56,7 @@ LPD='('
 OLD='┨'
 # Other Left Delimitor 
 ORD='┠'
-promptFG=9
+promptFG=33
 
 
 function workspace()
@@ -166,16 +69,18 @@ function workspace()
   echo -n "$WSinfo"
 }
 
-function stripColors(){
-  local str=""
-  str="$(echo -n "$1" | sed -E 's/\\\[\\033\[[0-9;]*m\\\]//g')"
-  echo -n "$str"
+function strip() {
+  local string="$1"
+  string=$(echo "$string" | sed 's/%F{[0-9]*}//g')
+  string=$(echo "$string" | sed 's/%[fbBF]//g')
+
+  echo "$string"
 }
 
 function user() {
   local UP="$L$LD"
   local usernamecolor=255 
-  if [ "$USER" == "root" ]; then
+  if [[ "$USER" == "root" ]]; then
     usernamecolor=1
     UP+=$bold
   fi
@@ -188,9 +93,9 @@ function user() {
   echo -n "$UP"
 }
 
-function prompt() {
-  local status=$?
-  if [ "$USER" != "root" ]; then
+function precmd() {
+  local cmd_status=$?
+  if [[ "$USER" != "root" ]]; then
     iconFG=27
     iconFG=11
     icon=$' '
@@ -213,11 +118,11 @@ function prompt() {
     # Github Color
     GC=77
     GP="$LPD$(putFG 27)$GI$(putFG $promptFG)$RPD$OLD${INFO}$(putFG $promptFG)$ORD"
-    GP_l="$(echo -n $GP | sed -E 's/\\\[\\033\[[0-9;]*m\\\]//g')"
+    GP_l="$(strip $GP)"
   fi
   # User Prompt
   local UP="$(putFG $promptFG)|$(putFG $iconFG)$icon$R$(putFG $promptFG)|"
-  local UP_l="$(echo -n $UP | sed -E 's/\\\[\\033\[[0-9;]*m\\\]//g')"
+  local UP_l="$(strip $UP)"
   # Line 1
   local L1="$(putFG $promptFG)"$'\u250C'"$L"
 
@@ -232,7 +137,7 @@ function prompt() {
     WP="$L$LD$(putFG $WSIC)${WSicon} $(putFG 7)$(workspace)$(putFG $promptFG)$RD"
   fi
   WP="$(user)"
-  local WP_l="$(echo -n "$WP" | sed -E 's/\\\[\\033\[[0-9;]*m\\\]//g')"
+  local WP_l="$(strip "$WP")"
 
   # Directory propmt
   local DIR=""
@@ -245,7 +150,7 @@ function prompt() {
   fi
   local DC=7
   local DP="$L$LD$(putFG $DC)$DIR$R$(putFG $promptFG)$RD"
-  local DP_l="$(echo -n "$DP" | sed -E 's/\\\[\\033\[[0-9;]*m\\\]//g')"
+  local DP_l="$(strip $DP)"
   
   local cols=$(tput cols)
   local chars=$(( cols - ${#DP_l} - ${#UP_l} - ${#GP_l} - ${#WP_l}))
@@ -255,9 +160,9 @@ function prompt() {
   done
   local ECFG=""
   local EP=""
-  if [ $status -eq 0 ]; then
+  if [ $cmd_status -eq 0 ]; then
     # Error Color
-    ECFG=11
+    ECFG=14
     # Error Prompt
     EP=""
     # PS1="$L1$line$UP\n"$'\u2514\u2500'" $R"
@@ -265,20 +170,20 @@ function prompt() {
     # Error Color
     ECFG=196
     # Error Prompt
-    EP="($(putFG $ECFG)$bold[x]$R $status$(putFG $promptFG))"
+    EP="($(putFG $ECFG)${bold}[x]$R $cmd_status$(putFG $promptFG))"
     # PS1="$L1$line$UP\n"$'\u2514\u2500'"❨$(putFG 1)󰃤$R $status $(putFG $promptFG)❩$(putFG 1)$R "
   fi
   # Input Char
   local IC=""
-  if [ "$USER" != "root" ]; then
-    IC="$(putFG $ECFG)$bold\$$R"
-  else
-    IC="$(putFG $ECFG)$bold#$R"
-  fi
+  # if [[ "$USER" != "root" ]]; then
+    IC="$(putFG $ECFG)${bold}%#$R "
+  # else
+    # IC="$(putFG $ECFG)$bold#$R"
+  # fi
   # Line Union
   local LU=$'\u2514\u2500'
   # Prompt String 1
-  PS1="$L1$WP$DP$GP$line$UP\n$LU$EP$IC"
+  PS1="$L1$WP$DP$GP$line$UP"$'\n'"$LU$EP$IC"
 }
 
-PROMPT_COMMAND=prompt
+precmd

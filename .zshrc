@@ -1,30 +1,30 @@
 
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-
-function set-target() {
+function settarget() {
   echo "$1" > /Users/nachh/.local/target.txt
   export TARGET="$(cat /Users/nachh/.local/target.txt)"
 }
 
-function clear-target() {
+function cleartarget() {
   echo "$1" > /Users/nachh/.local/target.txt
   export TARGET="$(cat /Users/nachh/.local/target.txt)"
 }
 
-function set-ws() {
+function setws() {
   if [ -d "$1" ]; then
     export WS="$1";
   else
     export WS="$(pwd)"
   fi
   echo "$WS" >  /Users/nachh/.local/workspace.txt
+}
+
+function cdws() {
+  export WS=$(cat /Users/nachh/.local/workspace.txt)
+  if [ -z $WS ]; then 
+    echo "ERROR: No hay ningun espacio de trabajo"
+  else
+    cd $WS
+  fi
 }
 
 function hex-encode() {
@@ -52,7 +52,6 @@ export TARGET="$(cat /Users/nachh/.local/target.txt)"
 export WS="$(cat /users/nachh/.local/workspace.txt)"
 # export JAVA_HOME="$(/usr/libexec/java_home)"
 
-
 #
 # INCLUSION BINARIOS
 #
@@ -66,14 +65,20 @@ export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
 export PATH="$PATH:/usr/local/bin"
 # HOMEBREW
 eval "$(/opt/homebrew/bin/brew shellenv)"
-# RBENV
-export PATH="/Users/nachh/.rbenv/versions/3.2.1/bin:$PATH"
+# Ruby Version Manager
+export PATH="$HOME/.rvm/bin:$PATH"
 # BINARIOS PROPIOS
 export PATH="$HOME/.config/bin:$PATH"
 # FINDUTILS
 export PATH="/opt/homebrew/opt/findutils/libexec/gnubin:$PATH"
 #VMWARE OVF TOOLS
 export PATH="$PATH:/Applications/VMware OVF Tool"
+#PIPx Binarios
+export PATH="$PATH:$HOME/.local/bin"
+#Binarios Arch64
+export PATH="$PATH:/usr/local/opt/brew/bin"
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
 # alias
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -111,16 +116,14 @@ bindkey $key[Down] down-line-or-history
 
 # Save type history for completion and easier life
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-# setopt appendhistory
+HISTSIZE=1000
+SAVEHIST=1000
+setopt appendhistory
 setopt histignorealldups sharehistory
 
 # Useful alias for benchmarking programs
 # require install package "time" sudo apt install time
-# alias time="/usr/bin/time -f '\t%E real,\t%U user,\t%S sys,\t%K amem,\t%M mmem'"
+# alias time="/usr/bin/time -f '\t%E real,\t%U user,\t%S sys,\t%K amem,\t%M mmem'\
+#
 
-source $HOME/powerlevel10k/powerlevel10k.zsh-theme
-
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
+source ~/.promptrc.sh
