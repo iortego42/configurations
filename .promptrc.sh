@@ -15,14 +15,14 @@ R="%f%b"
 function parse_git_branch() {
   local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
   if [ -n "$branch" ]; then
-    local status=$(git status --porcelain)
+    local gitstatus=$(git status --porcelain)
     local untracked=$(git ls-files --others --exclude-standard)
     local changed=$(git diff --name-only)
     local untracked_count=$(echo -n "$untracked" | wc -l | tr -d ' ')
     local changed_count=$(echo -n "$changed" | wc -l | tr -d ' ')
     local branch_info=""
         
-    if [ -n "$status" ] || [ -n "$untracked" ]; then
+    if [ -n "$gitstatus" ] || [ -n "$untracked" ]; then
       # Branch has uncommitted changes or untracked files
       branch_info+="$(putFG 221)$branch"  # Display branch name in red with asterisk
       if [ "$untracked_count" -gt 0 ]; then

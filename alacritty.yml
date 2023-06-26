@@ -68,7 +68,7 @@ window:
   #
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
-  #opacity: 1.0
+  opacity: .80
 
   # Startup Mode (changes require restart)
   #
@@ -131,7 +131,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Hasklug Nerd Font Propo
+    family: Hasklug Nerd Font Mono
     # family: Hack Nerd Font Mono
 
     # The `style` can be specified to pick a specific face.
@@ -143,7 +143,7 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Hasklug Nerd Font Propo
+    family: Hasklug Nerd Font Mono
     # family: Hack Nerd Font Mono
 
     # The `style` can be specified to pick a specific face.
@@ -174,7 +174,7 @@ font:
     style: Bold Italic
 
   # Point size
-  size: 18.0
+  size: 16.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -201,11 +201,11 @@ font:
 #draw_bold_text_with_bright_colors: false
 
 # Colors (Tomorrow Night)
-#colors:
+colors:
   # Default colors
-  #primary:
-  #  background: '#1d1f21'
-  #  foreground: '#c5c8c6'
+  primary:
+    background: '#1a1a1a'
+    foreground: '#dadada'
 
     # Bright and dim foreground colors
     #
@@ -222,7 +222,7 @@ font:
   #
   # Allowed values are CellForeground/CellBackground, which reference the
   # affected cell, or hexadecimal colors like #ff00ff.
-  #cursor:
+  # cursor:
   #  text: CellBackground
   #  cursor: CellForeground
 
@@ -297,8 +297,8 @@ font:
   #  background: CellForeground
 
   # Normal colors
-  #normal:
-  #  black:   '#1d1f21'
+  normal:
+   black:   '#1d1f21'
   #  red:     '#cc6666'
   #  green:   '#b5bd68'
   #  yellow:  '#f0c674'
@@ -306,6 +306,14 @@ font:
   #  magenta: '#b294bb'
   #  cyan:    '#8abeb7'
   #  white:   '#c5c8c6'
+   # black:   '#414868'
+   red:     '#ff5656'
+   green:   '#70ff70'
+   yellow:  '#fff000'
+   blue:    '#4090ff'
+   magenta: '#ab6af7'
+   cyan:    '#3dcfff'
+   white:   '#c5c8c6'
 
   # Bright colors
   #bright:
@@ -398,16 +406,17 @@ font:
   # When set to `true`, selected text will be copied to the primary clipboard.
   #save_to_clipboard: false
 
-#cursor:
+cursor:
   # Cursor style
-  #style:
+  style:
     # Cursor shape
     #
     # Values for `shape`:
     #   - ▇ Block
     #   - _ Underline
     #   - | Beam
-    #shape: Block
+    # shape: underline
+    shape: Underline
 
     # Cursor blinking state
     #
@@ -416,7 +425,7 @@ font:
     #   - Off: Disable blinking by default
     #   - On: Enable blinking by default
     #   - Always: Force the cursor to always blink
-    #blinking: Off
+    # blinking: On
 
   # Vi mode cursor style
   #
@@ -440,7 +449,7 @@ font:
 
   # Thickness of the cursor relative to the cell width as floating point number
   # from `0.0` to `1.0`.
-  #thickness: 0.15
+  thickness: 0.05
 
 # Live config reload (changes require restart)
 #live_config_reload: true
@@ -455,7 +464,8 @@ font:
 #   - (Linux/BSD/macOS) `$SHELL` or the user's login shell, if `$SHELL` is unset
 #   - (Windows) powershell
 shell:
- program: /opt/homebrew/bin/bash
+ # program: /opt/homebrew/bin/bash
+ program: /bin/zsh
  args:
    - --login
 
