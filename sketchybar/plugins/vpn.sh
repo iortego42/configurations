@@ -2,26 +2,27 @@
 
 IP=$(ifconfig | grep -A 4 "utun" | grep "inet " | cut -d ' ' -f 2)
 ICON=""
-ICONBACKCOLOR=0xff000000
+ICON=""
+ICONBACKCOLOR=0x00000000
 if [ "$IP" ]; then
-	IP="<$IP>"
+	IP="[ $IP ]"
 	ICON="󰢏"
 	FONT="Hack Nerd Font:Bold:24.0"
-	LABELCOLOR=0xff000000
+	LABELCOLOR=0xffffffff
 	ICONBACKCOLOR=0xffcfe0df
 	ICONCOLOR=0xff707070
 	Y=0
 	H=30
 	BW=11
 else
-	IP="->"
-	LABELCOLOR=0xb7555555
-	ICONCOLOR=0xffcfe0df
-	ICONBACKCOLOR=0xff0065ef
-	FONT="Hack Nerd Font:Bold:19.0"
+	IP="[  ]"
+	LABELCOLOR=0xffcccccc
+	ICONBACKCOLOR=0xffcf0e0f
+	ICONCOLOR=0xffffffff
+	FONT="Hack Nerd Font:Bold:20.0"
 	Y=0
-	H=29
-	BW=6
+	H=26
+	BW=11
 fi
 
 sketchybar --set $NAME label="$IP" label.color="$LABELCOLOR" \

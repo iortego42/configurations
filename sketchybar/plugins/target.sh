@@ -2,19 +2,24 @@
 
 TARGET="$(cat '/Users/nachh/.local/target.txt')"
 ICON=""
+ICON="󰣉"
 if [ -z "$TARGET" ]; then
-	LABELCOLOR=0xff404030
-	TARGET="-> No Target"
-	ICONBACKCOLOR="0xffeadf0c"
-	ICONCOLOR=0xff000000
+	ICON="󰗝"
+	LABELCOLOR=0xffcccccc
+	TARGET="[ No Target ]"
+	# ICONBACKCOLOR="0xffeadf0c"
+	ICONBACKCOLOR="0xffff3a60"
+	ICONCOLOR=0xffffffff
 else
-	TARGET="$(echo $TARGET | sed 's/^/-> /')"
-	LABELCOLOR=0xff000000
-	ICONBACKCOLOR="0xffeadf0c"
-	ICONCOLOR=0xff000000
+	TARGET="$(echo [ $TARGET ])"
+	# TARGET="$(echo [ \$TARGET = 42Madrid-Cyber ])"
+	LABELCOLOR=0xffffffff
+	# ICONBACKCOLOR="0xffeadf0c"
+	ICONBACKCOLOR="0xffff3a60"
+	ICONCOLOR=0xffffffff
 fi
-FONT="Hack Nerd Font:Bold:20.0"
-Y=1
+FONT="Hack Nerd Font:Bold:23.0"
+Y=0
 H=27
 BW=1
 

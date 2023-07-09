@@ -2,7 +2,7 @@
 
 BATT_PERCENT=$(pmset -g batt | grep -Eo "\d+%" | cut -d% -f1)
 CHARGING=$(pmset -g batt | grep 'AC Power')
-ICONCOLOR=0xff000000
+ICONCOLOR=0xffffffff
 sketchybar --set ${NAME} icon.color=0xff989898
 
 if [[ ${CHARGING} != "" ]]; then
