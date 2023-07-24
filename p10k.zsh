@@ -35,7 +35,7 @@
     vcs                     # git status
     # context
     userws
-    # vpn
+    vpn
     target
     status
     prompt_char             # prompt symbol
@@ -185,7 +185,7 @@
   fi
 
   #################################[ os_icon: os identifier ]##################################
-  # OS identifier color.
+  # OS identifier color. #4f90ff
   typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=228
   # Custom icon.
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
@@ -307,7 +307,7 @@
   #
     
     typeset -g POWERLEVEL9K_DIR_CLASSES=(
-      "~/htb(|/*)"    HTB      '󰆧'
+      "/Users/nachh/htb(|/*)"    HTB      '󰆧'
       '~(|/*)'       HOME     '󱂵'
       '*'            DEFAULT  '')
     typeset -g POWERLEVEL9K_DIR_HOME_FOREGROUND=#5070EF
@@ -1618,11 +1618,11 @@
   function prompt_userws() { 
     [ -f '/Users/nachh/.local/workspace.txt' ] &&  export WS="$(cat /Users/nachh/.local/workspace.txt)"
     if [ -d "$WS" ]; then
-      local wsname="%B㉿%b$(echo -n $WS | awk -F'/' '{print $NF}')" 
+      local wsname="%B@%b$(echo -n $WS | awk -F'/' '{print $NF}')" 
     fi
     local user="%F{14}$USER%f"
     if [[ $USER == "root" ]]; then
-      user="%F{9}%B$USER%b%f"
+      user="%F{#ff4038}%B$USER%b%f"
     fi
 
     p10k segment -t "$user%F{#0fa0ff}$wsname"
@@ -1633,7 +1633,7 @@
 
     if [[ -n $utun ]]; then
       local ip=$(echo $utun | cut -f 2 -d ' ')
-      p10k segment -f '#afc0ff' -i '󰴴' -t"%F{#20a0ff}$ip"
+      p10k segment -f '#afc0ff' -i '󰴳' -t"%F{#20a0ff}$ip"
     fi
   }
 
