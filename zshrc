@@ -1,6 +1,3 @@
-# Fix the Java Problem
-export _JAVA_AWT_WM_NONREPARENTING=1
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -8,57 +5,100 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Greeting
-# echo "Welcome to Parrot OS"
+# Fix the Java Problem
+export _JAVA_AWT_WM_NONREPARENTING=1
 
-# Prompt
-# PROMPT="%F{red}┌[%f%F{cyan}%m%f%F{red}]─[%f%F{yellow}%D{%H:%M-%d/%m}%f%F{red}]─[%f%F{magenta}%d%f%F{red}]%f"$'\n'"%F{red}└╼%f%F{green}$USER%f%F{yellow}$%f"
-# Export PATH$
-export PATH=~/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/opt/bin:/opt/nvim-linux64/bin:$PATH
-export PATH=$PATH:/home/nachh/.config/bin
+function settarget() {
+  echo "$1" > /home/kali/.local/target.txt
+  export TARGET="$(cat /home/kali/.local/target.txt)"
+}
 
+function cleartarget() {
+  echo "$1" > /home/kali/.local/target.txt
+  export TARGET="$(cat /home/kali/.local/target.txt)"
+}
 
+function setws() {
+  if [ -d "$1" ]; then
+    export WS="$1";
+  else
+    export WS="$(pwd)"
+  fi
+  echo "$WS" >  /home/kali/.local/workspace.txt
+}
 
-function hex-encode()
-{
+function cdws() {
+  export WS=$(cat /home/kali/.local/workspace.txt)
+  if [ -z $WS ]; then 
+    echo "ERROR: No hay ningun espacio de trabajo"
+  else
+    cd $WS
+  fi
+}
+
+function clearws() {
+  echo "" > /home/kali/.local/workspace.txt
+}
+
+function hex-encode() {
   echo "$@" | xxd -p
 }
 
-function hex-decode()
-{
+function hex-decode() {
   echo "$@" | xxd -p -r
 }
+function showcolors() {
+  for i in {0..255}; do 
+    print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}
+  done
+}
 
-function rot13()
-{
+
+function litend() {
+  local address="$1"
+  local little_endian=""
+  address=${address#0x}
+  local num_bytes=$(( ${#address} / 2 ))
+
+  for (( pos = num_bytes - 1; pos >= 0; pos-- )); do
+    local byte="${address:$pos*2:2}"
+    little_endian+="\\\\x$byte"
+  done
+
+  echo "${little_endian}"
+}
+
+
+function rot13() {
   echo "$@" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 }
 
-function settarget(){
-    ip_address=$1
-    machine_name=$2
-    echo "$ip_address $machine_name" > /home/cheras/.config/bin/target
+function mkws() {
+  mkdir -p $1/{nmap,content,exploits,Imgs}
 }
 
-function cleartarget(){
-    echo '' > /home/cheras/.config/bin/target
-}
+[ -f '/home/kali/.local/target.txt' ] &&  export TARGET="$(cat /home/kali/.local/target.txt)"
+[ -f '/home/kali/.local/workspace.txt' ] && export WS="$(cat /home/kali/.local/workspace.txt)"
+# export JAVA_HOME="$(/usr/libexec/java_home)"
 
-
+#
+# INCLUSION BINARIOS
+#
+# Export PATH$
+export PATH=~/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/opt/bin:/opt/nvim-linux64/bin:$PATH
+# BINARIOS PROPIOS
+export PATH="$HOME/.config/bin:$PATH"
 # alias
-alias dir='dir --color=auto'
-alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 #
 #-------/ CUSTOM ALIASES /-------
 #
-alias ll='lsd -lh --group-dirs=first'
-alias la='lsd -a --group-dirs=first'
-alias l='lsd --group-dirs=first'
-alias lla='lsd -lha --group-dirs=first'
-alias ls='lsd --group-dirs=first'
+alias ls='ls -F --color=auto'
+alias ll='lsd -lhF --group-dirs=first'
+alias la='lsd -laF --group-dirs=first'
+alias l='lsd -F --group-dirs=first'
 
 #####################################################
 # Auto completion / suggestion
@@ -78,11 +118,8 @@ bindkey $key[Up] up-line-or-history
 bindkey $key[Down] down-line-or-history
 
 
-##################################################
-# Fish like syntax highlighting
-# Requires "zsh-syntax-highlighting" from apt
-
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 # Save type history for completion and easier life
 HISTFILE=~/.zsh_history
@@ -90,17 +127,6 @@ HISTSIZE=10000
 SAVEHIST=10000
 # setopt appendhistory
 setopt histignorealldups sharehistory
-
-# Useful alias for benchmarking programs
-# require install package "time" sudo apt install time
-# alias time="/usr/bin/time -f '\t%E real,\t%U user,\t%S sys,\t%K amem,\t%M mmem'"
-# Display last command interminal
-# echo -en "\e]2;Parrot Terminal\a"
-# preexec () { print -Pn "\e]0;$1 - Parrot Terminal\a" }
-
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 
 #
 #
@@ -131,5 +157,9 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# source ~/.promptrc.sh
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
