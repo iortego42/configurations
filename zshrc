@@ -8,79 +8,16 @@ fi
 # Fix the Java Problem
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-function settarget() {
-  echo "$1" > /home/kali/.local/target.txt
-  export TARGET="$(cat /home/kali/.local/target.txt)"
-}
-
-function cleartarget() {
-  echo "$1" > /home/kali/.local/target.txt
-  export TARGET="$(cat /home/kali/.local/target.txt)"
-}
-
-function setws() {
-  if [ -d "$1" ]; then
-    export WS="$1";
-  else
-    export WS="$(pwd)"
-  fi
-  echo "$WS" >  /home/kali/.local/workspace.txt
-}
-
-function cdws() {
-  export WS=$(cat /home/kali/.local/workspace.txt)
-  if [ -z $WS ]; then 
-    echo "ERROR: No hay ningun espacio de trabajo"
-  else
-    cd $WS
-  fi
-}
-
-function clearws() {
-  echo "" > /home/kali/.local/workspace.txt
-}
-
-function hex-encode() {
-  echo "$@" | xxd -p
-}
-
-function hex-decode() {
-  echo "$@" | xxd -p -r
-}
-function showcolors() {
-  for i in {0..255}; do 
-    print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}
-  done
-}
-
-
-function litend() {
-  local address="$1"
-  local little_endian=""
-  address=${address#0x}
-  local num_bytes=$(( ${#address} / 2 ))
-
-  for (( pos = num_bytes - 1; pos >= 0; pos-- )); do
-    local byte="${address:$pos*2:2}"
-    little_endian+="\\\\x$byte"
-  done
-
-  echo "${little_endian}"
-}
-
-
-function rot13() {
-  echo "$@" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
-}
-
-function mkws() {
-  mkdir -p $1/{nmap,content,exploits,Imgs}
-}
+for file in /home/kali/.config/funciones/*.zsh; do
+    source "$file"
+done
 
 [ -f '/home/kali/.local/target.txt' ] &&  export TARGET="$(cat /home/kali/.local/target.txt)"
 [ -f '/home/kali/.local/workspace.txt' ] && export WS="$(cat /home/kali/.local/workspace.txt)"
 # export JAVA_HOME="$(/usr/libexec/java_home)"
 
+export EDITOR=nvim
+export VISUAL=nvim
 #
 # INCLUSION BINARIOS
 #
@@ -88,6 +25,8 @@ function mkws() {
 export PATH=~/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/opt/bin:/opt/nvim-linux64/bin:$PATH
 # BINARIOS PROPIOS
 export PATH="$HOME/.config/bin:$PATH"
+# BINARIOS YARN
+export PATH="$HOME/.yarn/bin:$PATH"
 # alias
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'

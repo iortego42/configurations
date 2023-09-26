@@ -186,7 +186,7 @@
 
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color. #4f90ff
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=4
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#ff4740'
   # Custom icon.
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
   typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=' '
@@ -195,7 +195,7 @@
   # Green prompt symbol if the last command succeeded.
   #
   # typeset -g POWERLEVEL8K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=84
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#0fa0ff'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#efa0ff'
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=1
   # Default prompt symbol.
@@ -1608,26 +1608,31 @@
     p10k segment -f 208 -i '⭐' -t 'hello, %n'
   }
   function prompt_target() {
-    [ -f '/Users/nachh/.local/target.txt' ] &&  export TARGET="$(cat /Users/nachh/.local/target.txt)"
+    [ -f '/home/kali/.local/target.txt' ] &&  export TARGET="$(cat /home/kali/.local/target.txt)"
+    [ -f '/home/kali/.local/dn.txt' ] &&  export DN="$(cat /home/kali/.local/dn.txt)"
     if [[ -n $TARGET ]]; then 
       local targetcolor=#ff776f      
       if ip route get $TARGET >/dev/null 2>&1; then
         targetcolor=46
       fi 
-      p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET"
+      local domain=""
+      if [[ -n $DN ]]; then
+        domain+=" %F{249}=> %F{123}$DN" 
+      fi
+      p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
     fi
   }
   function prompt_userws() { 
-    [ -f '/Users/nachh/.local/workspace.txt' ] &&  export WS="$(cat /Users/nachh/.local/workspace.txt)"
+    [ -f '/home/kali/.local/workspace.txt' ] &&  export WS="$(cat /home/kali/.local/workspace.txt)"
     if [ -d "$WS" ]; then
       local wsname="%B@%b$(echo -n $WS | awk -F'/' '{print $NF}')" 
     fi
-    local user="%F{4}$USER%f"
+    local user="%F{#ff5090}$USER%f"
     if [[ $USER == "root" ]]; then
       user="%F{#ff4038}%B$USER%b%f"
     fi
 
-    p10k segment -t "$user%F{#0fa0ff}$wsname"
+    p10k segment -t "$user%F{#0fe0ff}$wsname"
   }
 
   function prompt_vpn() {
