@@ -1610,16 +1610,28 @@
   function prompt_target() {
     [ -f '/home/kali/.local/target.txt' ] &&  export TARGET="$(cat /home/kali/.local/target.txt)"
     [ -f '/home/kali/.local/dn.txt' ] &&  export DN="$(cat /home/kali/.local/dn.txt)"
+    local targetcolor=#ff776f      
+    local domain=""
     if [[ -n $TARGET ]]; then 
-      local targetcolor=#ff776f      
       if ip route get $TARGET >/dev/null 2>&1; then
         targetcolor=46
       fi 
-      local domain=""
       if [[ -n $DN ]]; then
-        domain+=" %F{249}=> %F{123}$DN" 
+        domain+=" %F{123}󱌑  %F{123}$DN" 
       fi
       p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
+    else 
+      local ip_pattern='([0-9]{1,3}\.){3}[0-9]{1,3}'
+      if [[ $(pwd) =~ ${ip_pattern} ]]; then
+        export TARGET=${MATCH}
+        if ip route get $TARGET >/dev/null 2>&1; then
+          targetcolor=46 
+        fi
+        if [[ -n $DN ]]; then
+          domain+=" %F{123}󱌑  %F{123}$DN" 
+        fi
+        p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
+      fi
     fi
   }
   function prompt_userws() { 
