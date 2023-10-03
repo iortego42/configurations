@@ -1,60 +1,23 @@
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-function settarget() {
-  echo "$1" > /Users/nachh/.local/target.txt
-  export TARGET="$(cat /Users/nachh/.local/target.txt)"
-}
+for file in /Users/nachh/.config/funciones; do 
+  source "$file"
+done
 
-function cleartarget() {
-  echo "$1" > /Users/nachh/.local/target.txt
-  export TARGET="$(cat /Users/nachh/.local/target.txt)"
-}
-
-function setws() {
-  if [ -d "$1" ]; then
-    export WS="$1";
-  else
-    export WS="$(pwd)"
-  fi
-  echo "$WS" >  /Users/nachh/.local/workspace.txt
-}
-
-function cdws() {
-  export WS=$(cat /Users/nachh/.local/workspace.txt)
-  if [ -z $WS ]; then 
-    echo "ERROR: No hay ningun espacio de trabajo"
-  else
-    cd $WS
-  fi
-}
-
-function hex-encode() {
-  echo "$@" | xxd -p
-}
-
-function hex-decode() {
-  echo "$@" | xxd -p -r
-}
-function showcolors() {
-  for i in {0..255}; do 
-    print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}
-  done
-
-}
-function rot13() {
-  echo "$@" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
-}
-
-function mkws() {
-  mkdir -p $1/{nmap,content,exploits,Imgs}
-}
 
 export TARGET="$(cat /Users/nachh/.local/target.txt)"
 export WS="$(cat /users/nachh/.local/workspace.txt)"
 # export JAVA_HOME="$(/usr/libexec/java_home)"
+# powersploit path
+export PS="/opt/homebrew/share/powersploit"
 
 #
 # INCLUSION BINARIOS
 #
+# READELF Y UTILIDADES PARA BINARIOS
+# export PATH="/usr/local/opt/brew/opt/binutils/bin:$PATH"
 # PYTHON TO PYTHON3
 export PATH="/opt/homebrew/opt/python@3.11/libexec/bin:$PATH"
 # JOHN tools
@@ -65,10 +28,20 @@ export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
 export PATH="$PATH:/usr/local/bin"
 # HOMEBREW
 eval "$(/opt/homebrew/bin/brew shellenv)"
+# Brew binary
+export PATH="/opt/homebrew/bin:$PATH"
+# CURL binarios
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 # Ruby Version Manager
 export PATH="$HOME/.rvm/bin:$PATH"
 # BINARIOS PROPIOS
 export PATH="$HOME/.config/bin:$PATH"
+# pycurl
+export PATH="~/pycurl/curl-7.86.0/bin:$PATH"
+export LDFLAGS="-L~/pycurl/curl-7.86.0/lib -L/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib"
+export CPPFLAGS="-I~/pycurl/curl-7.86.0/include -I/opt/homebrew/Cellar/openssl@3/3.1.1_1/include"
+# Bin Utils path, puede causar fallo de compatibilidad con ciertas binarios no recuerdo cual
+# export PATH="/opt/homebrew/opt/binutils/bin:$PATH"
 # FINDUTILS
 export PATH="/opt/homebrew/opt/findutils/libexec/gnubin:$PATH"
 #VMWARE OVF TOOLS
@@ -79,6 +52,8 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/opt/brew/bin"
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+# .NET path
+# export PATH="/usr/local/share/dotnet:$PATH"
 # alias
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -99,31 +74,38 @@ alias l='lsd -F --group-dirs=first'
 # Requires: zsh-autosuggestions (packaging by Debian Team)
 # Jobs: Fish-like suggestion for command history
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /opt/homebrew/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+export EDITOR=nvim
 # Select all suggestion instead of top on result only
-zstyle ':autocomplete:tab:*' insert-unambiguous yes
-zstyle ':autocomplete:tab:*' widget-style menu-select
-zstyle ':autocomplete:*' min-input 2
-bindkey $key[Up] up-line-or-history
-bindkey $key[Down] down-line-or-history
+# zstyle ':autocomplete:tab:*' insert-unambiguous yes
+# zstyle ':autocomplete:tab:*' widget-style menu-select
+# zstyle ':autocomplete:*' min-input 2
+# bindkey $key[Up] up-line-or-history
+# bindkey $key[Down] down-line-or-history
 
 
 ##################################################
 # Fish like syntax highlighting
 # Requires "zsh-syntax-highlighting" from apt
 
-
+fpath=(~/.zsh/completion $fpath)
+autoload -U compinit
+compinit
 # Save type history for completion and easier life
-HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
-setopt appendhistory
-setopt histignorealldups sharehistory
+# HISTFILE=~/.zsh_history
+# HISTSIZE=10000
+# SAVEHIST=10000
+# setopt appendhistory
+# setopt histignorealldups sharehistory
 
 # Useful alias for benchmarking programs
 # require install package "time" sudo apt install time
 # alias time="/usr/bin/time -f '\t%E real,\t%U user,\t%S sys,\t%K amem,\t%M mmem'\
 #
 
-source ~/.promptrc.sh
+# source ~/.promptrc.sh
+source $HOME/powerlevel10k/powerlevel10k.zsh-theme
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

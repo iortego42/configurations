@@ -307,7 +307,7 @@
   #
     
     typeset -g POWERLEVEL9K_DIR_CLASSES=(
-      "/Users/nachh/htb(|/*)"    HTB      '󰆧'
+      "/Users/nachh/Hacking/htb(|/*)"    HTB      '󰆧'
       '~(|/*)'       HOME     '󱂵'
       '*'            DEFAULT  '')
     typeset -g POWERLEVEL9K_DIR_HOME_FOREGROUND=#5070EF
@@ -1605,14 +1605,32 @@
   function prompt_example() {
     p10k segment -f 208 -i '⭐' -t 'hello, %n'
   }
+
   function prompt_target() {
+    [ -f '/Users/nachh/.local/dn.txt' ] &&  export DN="$(cat /Users/nachh/.local/dn.txt)"
     [ -f '/Users/nachh/.local/target.txt' ] &&  export TARGET="$(cat /Users/nachh/.local/target.txt)"
+    local targetcolor=#ff776f      
+    local domain=""
     if [[ -n $TARGET ]]; then 
-      local targetcolor=#ff776f      
       if ip route get $TARGET >/dev/null 2>&1; then
         targetcolor=46
       fi 
-      p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET"
+      if [[ -n $DN ]]; then
+        domain+=" %F{123}󱌑  %F{123}$DN" 
+      fi
+      p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
+    else 
+      local ip_pattern='([0-9]{1,3}\.){3}[0-9]{1,3}'
+      if [[ $(pwd) =~ ${ip_pattern} ]]; then
+        export TARGET=${MATCH}
+        if ip route get $TARGET >/dev/null 2>&1; then
+          targetcolor=46 
+        fi
+        if [[ -n $DN ]]; then
+          domain+=" %F{123}󱌑  %F{123}$DN" 
+        fi
+        p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
+      fi
     fi
   }
   function prompt_userws() { 
