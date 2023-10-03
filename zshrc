@@ -13,6 +13,7 @@ for file in /home/kali/.config/funciones/*.zsh; do
 done
 
 [ -f '/home/kali/.local/target.txt' ] &&  export TARGET="$(cat /home/kali/.local/target.txt)"
+[ -f '/home/kali/.local/targetdir.txt' ] &&  export TARGETDIR="$(cat /home/kali/.local/targetdir.txt)"
 [ -f '/home/kali/.local/workspace.txt' ] && export WS="$(cat /home/kali/.local/workspace.txt)"
 # export JAVA_HOME="$(/usr/libexec/java_home)"
 
