@@ -1,7 +1,7 @@
 portstable() {
     local regex_pattern="([0-9]+)/([a-z]+)/([a-z]+)//([a-z-]*)///"
 
-    local str=`echo $1 | tr -s ',' '\n'`
+    local str=`cat $1 | grep Ports: | awk '{for(i=5;i<=NF-4;i++) printf("%s ", $i); print ""}' | tr -s ',' '\n'`
     echo "| PORT | STATE | SERVICE |"
     echo "| --- | --- | --- |"
 
@@ -73,6 +73,9 @@ dirstable() {
                     ;;
                 3[0-9][0-9])
                     color="cyan"
+                    ;;
+                404)
+                    color="grey"
                     ;;
                 4[0-9][0-9])
                     color="orange"

@@ -90,5 +90,4 @@ function rot13() {
 
 function mktarget() {
   mkdir -p $1/{nmap,content,exploits,Imgs}
-  settarget $1
 }
