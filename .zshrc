@@ -2,11 +2,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-for file in /Users/nachh/.config/funciones; do 
+for file in /Users/nachh/.config/funciones/*.zsh; do 
   source "$file"
 done
 
 
+export TARGETDIR="$(cat /Users/nachh/.local/targetdir.txt)"
 export TARGET="$(cat /Users/nachh/.local/target.txt)"
 export WS="$(cat /users/nachh/.local/workspace.txt)"
 # export JAVA_HOME="$(/usr/libexec/java_home)"
@@ -52,6 +53,10 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/opt/brew/bin"
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+# Binario NEO4J
+export PATH="/Users/nachh/.config/neo4j/bin/:$PATH"
+set NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+set NEO4J_ACCEPT_LICENSE_AGREEMENT=eval
 # .NET path
 # export PATH="/usr/local/share/dotnet:$PATH"
 # alias

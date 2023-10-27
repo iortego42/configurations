@@ -1,7 +1,7 @@
 function settarget() {
   echo "$1" > /Users/nachh/.local/target.txt
   if [[ `pwd` =~ .*"/$1" ]]; then 
-    echo "$(pwd)/$1" > /Users/nachh/.local/targetdir.txt
+    echo "$(pwd)" > /Users/nachh/.local/targetdir.txt
   else
     echo '' > /Users/nachh/.local/targetdir.txt
   fi
@@ -14,29 +14,14 @@ function cdtarget() {
   if [[ -d $TARGETDIR ]];then
     cd $TARGETDIR
   else
-    echo >&2 '\033[31;1mERROR\033[0m: Target has not got a valid directory' 
+    echo >&2 '\033[31;1mERROR\033[0m: El objetivo no tiene un directorio válido' 
   fi
-}
-
-
-
-
-
-
-
-function setws() {
-  if [ -d "$1" ]; then
-    export WS="$(pwd)"
-    export WS+="$1"
-  else
-    export WS="$(pwd)"
-  fi
-  echo "$WS" >  /home/kali/.local/workspace.txt
 }
 
 function setws() {
   if [ -d "$1" ]; then
-    export WS="$1";
+    
+    export WS="$(pwd)/$1";
   else
     export WS="$(pwd)"
   fi
@@ -49,8 +34,8 @@ function clearws() {
 
 function cdws() {
   export WS=$(cat /Users/nachh/.local/workspace.txt)
-  if [ -z $WS ]; then 
-    echo "ERROR: No hay ningun espacio de trabajo"
+  if ! [ -d $WS ]; then 
+    echo "\033[31;1mERROR\033[0m: No hay ningun espacio de trabajo"
   else
     cd $WS
   fi
@@ -58,7 +43,6 @@ function cdws() {
 
 function mktarget() {
   mkdir -p $1/{nmap,content,exploits,Imgs}
-  settarget $1
 }
 
 function setdn() {
@@ -70,13 +54,11 @@ function cleardn() {
   echo "$1" > /Users/nachh/.local/dn.txt
   export TARGET="$(cat /Users/nachh/.local/dn.txt)"
 }
-function settarget() {
-  echo "$1" > /Users/nachh/.local/target.txt
-  export TARGET="$(cat /Users/nachh/.local/target.txt)"
-}
 
 function cleartarget() {
-  echo "$1" > /Users/nachh/.local/target.txt
+  echo "" > /Users/nachh/.local/target.txt
+  echo "" > /Users/nachh/.local/targetdir.txt
+  export TARGETDIR="$(cat /Users/nachh/.local/targetdir.txt)"
   export TARGET="$(cat /Users/nachh/.local/target.txt)"
 }
 function hex-encode() {

@@ -55,38 +55,3 @@ routestable() {
     echo "$transformed_input"
 }
 
-dirstable() {
-    local regex_pattern="^([^[:space:]]+)\s+([^[:space:]]+)\s+([^[:space:]]+)$"
-    local transformed_input=""
-    echo "| STATUS | SIZE | ROUTE |"
-    echo "| --- | --- | --- |"
-
-    while IFS= read -r line; do
-        if [[ $line =~ $regex_pattern ]]; then
-            local route="${match[3]}"
-            local status_code="${match[1]}"
-            local size="${match[2]}"
-            local color=""
-            case $status_code in
-                2[0-9][0-9])
-                    color="green"
-                    ;;
-                3[0-9][0-9])
-                    color="cyan"
-                    ;;
-                4[0-9][0-9])
-                    color="orange"
-                    ;;
-                5[0-9][0-9])
-                    color="red"
-                    ;;
-                *)
-                    color="purple"
-                    ;;
-            esac
-            transformed_input+="| <span style=\"color:${color}\">**${status_code}**</span> | ${size} | ${route} |\n"
-        fi
-    done < $1
-
-    echo "$transformed_input"
-}
