@@ -186,14 +186,14 @@
 
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color. #4f90ff
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=228
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#fff'
   # Custom icon.
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
   typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='󰀵'
 
   ################################[ prompt_char: prompt symbol ]################################
   # Green prompt symbol if the last command succeeded.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=84
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#80ff7f'
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=1
   # Default prompt symbol.
@@ -384,7 +384,7 @@
     if (( $1 )); then
       # Styling for up-to-date Git status.
       local       meta='%f'     # default foreground
-      local      clean='%76F'   # green foreground
+      local      clean='%84F'   # green foreground
       local   modified='%178F'  # yellow foreground
       local  untracked='%39F'   # blue foreground
       local conflicted='%196F'  # red foreground
@@ -500,7 +500,7 @@
   typeset -g POWERLEVEL9K_VCS_{STAGED,UNSTAGED,UNTRACKED,CONFLICTED,COMMITS_AHEAD,COMMITS_BEHIND}_MAX_NUM=-1
 
   # Icon color.
-  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=76
+  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=84
   typeset -g POWERLEVEL9K_VCS_LOADING_VISUAL_IDENTIFIER_COLOR=244
   # Custom icon.
   # typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_EXPANSION='⭐'
@@ -1613,10 +1613,10 @@
     local domain=""
     if [[ -n $TARGET ]]; then 
       if ip route get $TARGET >/dev/null 2>&1; then
-        targetcolor=46
+        targetcolor='#8bff70'
       fi 
       if [[ -n $DN ]]; then
-        domain+=" %F{123}󱌑  %F{123}$DN" 
+        domain+=" %F{123}󱌑  %F{#ad70d2}$DN" 
       fi
       p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
     else 
@@ -1624,10 +1624,10 @@
       if [[ $(pwd) =~ ${ip_pattern} ]]; then
         export TARGET=${MATCH}
         if ip route get $TARGET >/dev/null 2>&1; then
-          targetcolor=46 
+          targetcolor='#8bff70'
         fi
         if [[ -n $DN ]]; then
-          domain+=" %F{123}󱌑  %F{123}$DN" 
+          domain+=" %F{123}󱌑  %F{#ad70d2}$DN" 
         fi
         p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
       fi
@@ -1636,14 +1636,14 @@
   function prompt_userws() { 
     [ -f '/Users/nachh/.local/workspace.txt' ] &&  export WS="$(cat /Users/nachh/.local/workspace.txt)"
     if [ -d "$WS" ]; then
-      local wsname="%B@%b$(echo -n $WS | awk -F'/' '{print $NF}')" 
+      local wsname="%B[%b$(echo -n $WS | awk -F'/' '{print $NF}')%B]%b" 
     fi
-    local user="%F{14}$USER%f"
+    local user="%F{#09fa8c}$USER%f"
     if [[ $USER == "root" ]]; then
       user="%F{#ff4038}%B$USER%b%f"
     fi
 
-    p10k segment -t "$user%F{#0fa0ff}$wsname"
+    p10k segment -t "$user%F{#85ff87}$wsname"
   }
 
   function prompt_vpn() {
