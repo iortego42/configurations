@@ -186,7 +186,7 @@
 
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color. #4f90ff
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#ff4740'
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#4F709C'
   # Custom icon.
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
   typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=' '
@@ -195,7 +195,7 @@
   # Green prompt symbol if the last command succeeded.
   #
   # typeset -g POWERLEVEL8K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=84
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#efa0ff'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#F0F0F0'
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=1
   # Default prompt symbol.
@@ -1614,7 +1614,7 @@
     local domain=""
     if [[ -n $TARGET ]]; then 
       if ip route get $TARGET >/dev/null 2>&1; then
-        targetcolor=46
+        targetcolor='#A6FF96'
       fi 
       if [[ -n $DN ]]; then
         domain+=" %F{123}󱌑  %F{123}$DN" 
@@ -1625,7 +1625,7 @@
       if [[ $(pwd) =~ ${ip_pattern} ]]; then
         export TARGET=${MATCH}
         if ip route get $TARGET >/dev/null 2>&1; then
-          targetcolor=46 
+          targetcolor='#A6FF96'
         fi
         if [[ -n $DN ]]; then
           domain+=" %F{123}󱌑  %F{123}$DN" 
@@ -1639,12 +1639,12 @@
     if [ -d "$WS" ]; then
       local wsname="%B@%b$(echo -n $WS | awk -F'/' '{print $NF}')" 
     fi
-    local user="%F{#ff5090}$USER%f"
+    local user="%F{#E5D283}$USER%f"
     if [[ $USER == "root" ]]; then
       user="%F{#ff4038}%B$USER%b%f"
     fi
 
-    p10k segment -t "$user%F{#0fe0ff}$wsname"
+    p10k segment -t "$user%F{#4F709C}$wsname"
   }
 
   function prompt_vpn() {
