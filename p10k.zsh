@@ -186,7 +186,7 @@
 
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color. #4f90ff
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#4F709C'
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#6a6a6a'
   # Custom icon.
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
   typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=' '
@@ -1639,19 +1639,19 @@
     if [ -d "$WS" ]; then
       local wsname="%B@%b$(echo -n $WS | awk -F'/' '{print $NF}')" 
     fi
-    local user="%F{#E5D283}$USER%f"
+    local user="%F{#379cf4}$USER%f"
     if [[ $USER == "root" ]]; then
       user="%F{#ff4038}%B$USER%b%f"
     fi
 
-    p10k segment -t "$user%F{#4F709C}$wsname"
+    p10k segment -t "$user%F{#72b9f7}$wsname"
   }
 
   function prompt_vpn() {
-    local utun=$(ifconfig | grep -A2 utun | grep 'inet ')
+    local utun=$(ifconfig | grep -A2 tun | grep 'inet ')
 
     if [[ -n $utun ]]; then
-      local ip=$(echo $utun | cut -f 2 -d ' ')
+      local ip=$(echo $utun | awk '{print $2}')
       p10k segment -f '#afc0ff' -i '󰴳' -t"%F{#20a0ff}$ip"
     fi
   }
