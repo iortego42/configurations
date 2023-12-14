@@ -58,7 +58,7 @@
     goenv                   # go environment (https://github.com/syndbg/goenv)
     nodenv                  # node.js version from nodenv (https://github.com/nodenv/nodenv)
     nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
-    nodeenv                 # node.js environment (https://github.com/ekalinin/nodeenv)
+    nodeenv                 # node.js environment (https://github.com/eparrotnin/nodeenv)
     # node_version          # node.js version
     # go_version            # go version (https://golang.org)
     # rust_version          # rustc version (https://www.rust-lang.org)
@@ -309,7 +309,7 @@
   #
     
     typeset -g POWERLEVEL9K_DIR_CLASSES=(
-      "/home/kali/htb(|/*)"    HTB      '󰆧'
+      "/home/parrot/htb(|/*)"    HTB      '󰆧'
       '~(|/*)'       HOME     '󱂵'
       '*'            DEFAULT  '')
     typeset -g POWERLEVEL9K_DIR_HOME_FOREGROUND=#5070EF
@@ -1013,7 +1013,7 @@
   # Custom icon.
   # typeset -g POWERLEVEL9K_NVM_VISUAL_IDENTIFIER_EXPANSION='⭐'
 
-  ############[ nodeenv: node.js environment (https://github.com/ekalinin/nodeenv) ]############
+  ############[ nodeenv: node.js environment (https://github.com/eparrotnin/nodeenv) ]############
   # Nodeenv color.
   typeset -g POWERLEVEL9K_NODEENV_FOREGROUND=70
   # Don't show Node version next to the environment name.
@@ -1608,8 +1608,8 @@
     p10k segment -f 208 -i '⭐' -t 'hello, %n'
   }
   function prompt_target() {
-    [ -f '/home/kali/.local/target.txt' ] &&  export TARGET="$(cat /home/kali/.local/target.txt)"
-    [ -f '/home/kali/.local/dn.txt' ] &&  export DN="$(cat /home/kali/.local/dn.txt)"
+    [ -f '/home/parrot/.local/target.txt' ] &&  export TARGET="$(cat /home/parrot/.local/target.txt)"
+    [ -f '/home/parrot/.local/dn.txt' ] &&  export DN="$(cat /home/parrot/.local/dn.txt)"
     local targetcolor=#ff776f      
     local domain=""
     if [[ -n $TARGET ]]; then 
@@ -1635,7 +1635,7 @@
     fi
   }
   function prompt_userws() { 
-    [ -f '/home/kali/.local/workspace.txt' ] &&  export WS="$(cat /home/kali/.local/workspace.txt)"
+    [ -f '/home/parrot/.local/workspace.txt' ] &&  export WS="$(cat /home/parrot/.local/workspace.txt)"
     if [ -d "$WS" ]; then
       local wsname="%B@%b$(echo -n $WS | awk -F'/' '{print $NF}')" 
     fi
