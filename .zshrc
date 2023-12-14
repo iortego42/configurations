@@ -1,59 +1,24 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Fix the Java Problem
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-function settarget() {
-  echo "$1" > /home/parrot/.local/target.txt
-  export TARGET="$(cat /home/parrot/.local/target.txt)"
-}
-
-function cleartarget() {
-  echo "$1" > /home/parrot/.local/target.txt
-  export TARGET="$(cat /home/parrot/.local/target.txt)"
-}
-
-function setws() {
-  if [ -d "$1" ]; then
-    export WS="$1";
-  else
-    export WS="$(pwd)"
-  fi
-  echo "$WS" >  /home/parrot/.local/workspace.txt
-}
-
-function cdws() {
-  export WS=$(cat /home/parrot/.local/workspace.txt)
-  if [ -z $WS ]; then 
-    echo "ERROR: No hay ningun espacio de trabajo"
-  else
-    cd $WS
-  fi
-}
-
-function hex-encode() {
-  echo "$@" | xxd -p
-}
-
-function hex-decode() {
-  echo "$@" | xxd -p -r
-}
-function showcolors() {
-  for i in {0..255}; do 
-    print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}
-  done
-
-}
-function rot13() {
-  echo "$@" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
-}
-
-function mkws() {
-  mkdir -p $1/{nmap,content,exploits,Imgs}
-}
+for file in /home/parrot/.config/funciones/*.zsh; do
+    source "$file"
+done
 
 [ -f '/home/parrot/.local/target.txt' ] &&  export TARGET="$(cat /home/parrot/.local/target.txt)"
+[ -f '/home/parrot/.local/targetdir.txt' ] &&  export TARGETDIR="$(cat /home/parrot/.local/targetdir.txt)"
 [ -f '/home/parrot/.local/workspace.txt' ] && export WS="$(cat /home/parrot/.local/workspace.txt)"
 # export JAVA_HOME="$(/usr/libexec/java_home)"
 
+export EDITOR=nvim
+export VISUAL=nvim
 #
 # INCLUSION BINARIOS
 #
@@ -61,6 +26,8 @@ function mkws() {
 export PATH=~/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/opt/bin:/opt/nvim-linux64/bin:$PATH
 # BINARIOS PROPIOS
 export PATH="$HOME/.config/bin:$PATH"
+# BINARIOS YARN
+export PATH="$HOME/.yarn/bin:$PATH"
 # alias
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -81,7 +48,7 @@ alias l='lsd -F --group-dirs=first'
 # Requires: zsh-autosuggestions (packaging by Debian Team)
 # Jobs: Fish-like suggestion for command history
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# source /usr/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # source /usr/share/zsh-sudo/sudo.plugin.zsh
 # Select all suggestion instead of top on result only
 zstyle ':autocomplete:tab:*' insert-unambiguous yes
@@ -92,6 +59,7 @@ bindkey $key[Down] down-line-or-history
 
 
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 # Save type history for completion and easier life
 HISTFILE=~/.zsh_history
@@ -130,4 +98,8 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 
-source ~/.promptrc.sh
+# source ~/.promptrc.sh
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
