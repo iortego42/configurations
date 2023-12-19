@@ -1,12 +1,24 @@
 function settarget() {
-  echo "$1" > /home/kali/.local/target.txt
-  if [[ `pwd` =~ .*"/$1" ]]; then 
-    echo "$(pwd)/$1" > /home/kali/.local/targetdir.txt
+  if [ -n "$2"  ]; then
+    if [[ "$2" == '-l' ]]; then 
+      echo "$1" > ./.target.txt
+      export TARGET="$(cat ./.target.txt)"
+    elif [[ "$1" == '-l' ]]; then
+      echo "$2" > ./.target.txt
+      export TARGET="$(cat ./.target.txt)"
+    else
+      echo "Wrong input" 1>&2
+    fi
   else
-    echo '' > /home/kali/.local/targetdir.txt
+    echo "$1" > /home/parrot/.local/target.txt
+    if [[ `pwd` =~ .*"/$1" ]]; then 
+      echo "$(pwd)/$1" > /home/parrot/.local/targetdir.txt
+    else
+      echo '' > /home/parrot/.local/targetdir.txt
+    fi
+    export TARGET="$(cat /home/parrot/.local/target.txt)"
+    export TARGETDIR="$(cat /home/parrot/.local/targetdir.txt)"
   fi
-  export TARGET="$(cat /home/kali/.local/target.txt)"
-  export TARGETDIR="$(cat /home/kali/.local/targetdir.txt)"
 }
 
 function cdtarget() {
@@ -18,18 +30,18 @@ function cdtarget() {
 }
 
 function cleartarget() {
-  echo "$1" > /home/kali/.local/target.txt
-  export TARGET="$(cat /home/kali/.local/target.txt)"
+  echo "$1" > /home/parrot/.local/target.txt
+  export TARGET="$(cat /home/parrot/.local/target.txt)"
 }
 
 function setdn() {
-  echo "$1" > /home/kali/.local/dn.txt
-  export DN="$(cat /home/kali/.local/dn.txt)"
+  echo "$1" > /home/parrot/.local/dn.txt
+  export DN="$(cat /home/parrot/.local/dn.txt)"
 }
 
 function cleardn() {
-  echo "$1" > /home/kali/.local/dn.txt
-  export DN="$(cat /home/kali/.local/dn.txt)"
+  echo "$1" > /home/parrot/.local/dn.txt
+  export DN="$(cat /home/parrot/.local/dn.txt)"
 }
 
 function setws() {
@@ -39,11 +51,11 @@ function setws() {
   else
     export WS="$(pwd)"
   fi
-  echo "$WS" >  /home/kali/.local/workspace.txt
+  echo "$WS" >  /home/parrot/.local/workspace.txt
 }
 
 function cdws() {
-  export WS=$(cat /home/kali/.local/workspace.txt)
+  export WS=$(cat /home/parrot/.local/workspace.txt)
   if [ -z $WS ]; then 
     echo "ERROR: No hay ningun espacio de trabajo"
   else
@@ -52,7 +64,7 @@ function cdws() {
 }
 
 function clearws() {
-  echo "" > /home/kali/.local/workspace.txt
+  echo "" > /home/parrot/.local/workspace.txt
 }
 
 function hex-encode() {
