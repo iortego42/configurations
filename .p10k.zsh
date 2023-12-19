@@ -35,7 +35,7 @@
     vcs                     # git status
     # context
     userws
-    vpn
+    # vpn
     target
     status
     prompt_char             # prompt symbol
@@ -1624,12 +1624,16 @@
       local ip_pattern='([0-9]{1,3}\.){3}[0-9]{1,3}'
       if [[ $(pwd) =~ ${ip_pattern} ]]; then
         export TARGET=${MATCH}
-        if ip route get $TARGET >/dev/null 2>&1; then
-          targetcolor='#A6FF96'
-        fi
-        if [[ -n $DN ]]; then
-          domain+=" %F{123}󱌑  %F{123}$DN" 
-        fi
+      elif ([ -d $WS ] && [ -f "$WS/.target.txt" ] && [[ "$(pwd)" =~ "$WS/.*" ]]) || ([ -f "./.target.txt" ]); then
+        export TARGET="$(cat $WS/.target.txt)"
+      fi
+      if ip route get $TARGET >/dev/null 2>&1; then
+        targetcolor='#A6FF96'
+      fi
+      if [[ -n $DN ]]; then
+        domain+=" %F{123}󱌑  %F{123}$DN" 
+      fi
+      if [[ -n $TARGET ]]; then 
         p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
       fi
     fi
@@ -1637,14 +1641,14 @@
   function prompt_userws() { 
     [ -f '/home/parrot/.local/workspace.txt' ] &&  export WS="$(cat /home/parrot/.local/workspace.txt)"
     if [ -d "$WS" ]; then
-      local wsname="%B@%b$(echo -n $WS | awk -F'/' '{print $NF}')" 
+      local wsname=" %B[%b%F{#72b9f7}$(echo -n $WS | awk -F'/' '{print $NF}')%f%B]%b" 
     fi
     local user="%F{#05EEFF}$USER%f"
     if [[ $USER == "root" ]]; then
       user="%F{#ff4038}%B$USER%b%f"
     fi
 
-    p10k segment -t "$user%F{#72b9f7}$wsname"
+    p10k segment -t "$user$wsname"
   }
 
   function prompt_vpn() {
