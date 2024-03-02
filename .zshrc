@@ -40,6 +40,12 @@ alias ll='lsd -lhF --group-dirs=first'
 alias la='lsd -laF --group-dirs=first'
 alias l='lsd -F --group-dirs=first'
 
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+# Colores zsh
+ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=#15E0ED,underline
+ZSH_HIGHLIGHT_STYLES[precommand]=fg=#15E0ED,underline
+ZSH_HIGHLIGHT_STYLES[arg0]=fg=#15E0ED
 #####################################################
 # Auto completion / suggestion
 # Mixing zsh-autocomplete and zsh-autosuggestions
@@ -58,8 +64,6 @@ bindkey $key[Up] up-line-or-history
 bindkey $key[Down] down-line-or-history
 
 
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 # Save type history for completion and easier life
 HISTFILE=~/.zsh_history
