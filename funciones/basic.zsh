@@ -95,6 +95,7 @@ function rot13() {
 }
 
 function getports() {
-  export PORTS=$(cat $1 | sed 's/\/\/\//\n/g' | grep open | cut -f 2 -d ' ' | cut -f 1 -d '/' | tail -n +2 | xargs | tr -s ' ' ',')
+  export PORTS=$(cat allports_tcp | grep Ports | tail -n 1  | awk '{for (i=4; i < NF -4; i++) printf $i}' | sed 's/\/\/\//\n/g' | tr -s ':,' '/' | cut -d '/' -f 2 | xargs | tr -s ' ' ',')
+  echo "Sourced ports: $PORTS"
 }
 
