@@ -30,14 +30,11 @@
 
   # The list of segments shown on the left. Fill it with the most important segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-    os_icon                 # os identifier
+    # os_icon                 # os identifier
+    htb_icon
     # dir                     # current directory
-    vcs                     # git status
     # context
-    userws
-    vpn
     target
-    status
     prompt_char             # prompt symbol
   )
 
@@ -46,7 +43,11 @@
   # automatically hidden when the input line reaches it. Right prompt above the
   # last prompt line gets hidden if it would overlap with left prompt.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+    status
+    vcs                     # git status
     dir
+    # userws
+    vpn
     # status                  # exit code of the last command
     # command_execution_time  # duration of the last command
     background_jobs         # presence of background jobs
@@ -186,14 +187,17 @@
 
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color. #4f90ff
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#fff'
+  # typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#6a6a6a'
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#9FEF00'
   # Custom icon.
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
-  typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='󰀵'
+  # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='󰀵'
+  typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='󰆧'
 
   ################################[ prompt_char: prompt symbol ]################################
   # Green prompt symbol if the last command succeeded.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#80ff7f'
+  # '#80ff7f'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#fff'
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=1
   # Default prompt symbol.
@@ -269,7 +273,7 @@
   # directory will be shortened only when prompt doesn't fit or when other parameters demand it
   # (see POWERLEVEL9K_DIR_MIN_COMMAND_COLUMNS and POWERLEVEL9K_DIR_MIN_COMMAND_COLUMNS_PCT below).
   # If set to `0`, directory will always be shortened to its minimum length.
-  typeset -g POWERLEVEL9K_DIR_MAX_LENGTH=20
+  typeset -g POWERLEVEL9K_DIR_MAX_LENGTH=10
   # When `dir` segment is on the last prompt line, try to shorten it enough to leave at least this
   # many columns for typing commands.
   typeset -g POWERLEVEL9K_DIR_MIN_COMMAND_COLUMNS=40
@@ -1616,7 +1620,7 @@
         targetcolor='#8bff70'
       fi 
       if [[ -n $DN ]]; then
-        domain+=" %F{123}󱌑  %F{#ad70d2}$DN" 
+        domain+=" %F{123}- %F{#70add2}$DN" 
       fi
       p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
     else 
@@ -1627,23 +1631,33 @@
           targetcolor='#8bff70'
         fi
         if [[ -n $DN ]]; then
-          domain+=" %F{123}󱌑  %F{#ad70d2}$DN" 
+          domain+=" %F{123}- %F{#70add2}$DN" 
         fi
         p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
       fi
     fi
   }
+  function prompt_htb_icon()
+  {
+    local iconcolor="#9FEF00"
+    if [[ $USER == "root" ]]; then
+      iconcolor="#8f00ff"
+    fi
+    p10k segment -i '󰆧' -f $iconcolor
+
+  }
   function prompt_userws() { 
     [ -f '/Users/nachh/.local/workspace.txt' ] &&  export WS="$(cat /Users/nachh/.local/workspace.txt)"
     if [ -d "$WS" ]; then
-      local wsname="%B[%b$(echo -n $WS | awk -F'/' '{print $NF}')%B]%b" 
+      local wsname=" %B• %b%F{#309fff}$(echo -n $WS | awk -F'/' '{print $NF}')%f" 
     fi
-    local user="%F{#09fa8c}$USER%f"
+    # local user="%F{#09fa8c}$USER%f"
+    local user="%F{#eeeeff}$USER%f"
     if [[ $USER == "root" ]]; then
       user="%F{#ff4038}%B$USER%b%f"
     fi
 
-    p10k segment -t "$user%F{#85ff87}$wsname"
+    p10k segment -t "$user$wsname"
   }
 
   function prompt_vpn() {

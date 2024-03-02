@@ -85,6 +85,10 @@ alias l='lsd -F --group-dirs=first'
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=117,underline
+ZSH_HIGHLIGHT_STYLES[precommand]=fg=117,underline
+ZSH_HIGHLIGHT_STYLES[arg0]=fg=117
+
 source /opt/homebrew/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 export EDITOR=nvim
 # Select all suggestion instead of top on result only
