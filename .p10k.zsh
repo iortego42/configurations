@@ -30,14 +30,11 @@
 
   # The list of segments shown on the left. Fill it with the most important segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-    os_icon                 # os identifier
+    # os_icon                 # os identifier
+    htb_icon
     # dir                     # current directory
-    vcs                     # git status
     # context
-    userws
-    # vpn
     target
-    status
     prompt_char             # prompt symbol
   )
 
@@ -46,7 +43,11 @@
   # automatically hidden when the input line reaches it. Right prompt above the
   # last prompt line gets hidden if it would overlap with left prompt.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+    status
+    vcs                     # git status
     dir
+    # userws
+    vpn
     # status                  # exit code of the last command
     # command_execution_time  # duration of the last command
     background_jobs         # presence of background jobs
@@ -58,7 +59,7 @@
     goenv                   # go environment (https://github.com/syndbg/goenv)
     nodenv                  # node.js version from nodenv (https://github.com/nodenv/nodenv)
     nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
-    nodeenv                 # node.js environment (https://github.com/eparrotnin/nodeenv)
+    nodeenv                 # node.js environment (https://github.com/ekalinin/nodeenv)
     # node_version          # node.js version
     # go_version            # go version (https://golang.org)
     # rust_version          # rustc version (https://www.rust-lang.org)
@@ -186,16 +187,17 @@
 
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color. #4f90ff
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#6a6a6a'
+  # typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#6a6a6a'
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#9FEF00'
   # Custom icon.
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
-  typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=''
+  # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='󰀵'
+  typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='󰆧'
 
   ################################[ prompt_char: prompt symbol ]################################
   # Green prompt symbol if the last command succeeded.
-  #
-  # typeset -g POWERLEVEL8K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=84
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#F0F0F0'
+  # '#80ff7f'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#fff'
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=1
   # Default prompt symbol.
@@ -271,7 +273,7 @@
   # directory will be shortened only when prompt doesn't fit or when other parameters demand it
   # (see POWERLEVEL9K_DIR_MIN_COMMAND_COLUMNS and POWERLEVEL9K_DIR_MIN_COMMAND_COLUMNS_PCT below).
   # If set to `0`, directory will always be shortened to its minimum length.
-  typeset -g POWERLEVEL9K_DIR_MAX_LENGTH=20
+  typeset -g POWERLEVEL9K_DIR_MAX_LENGTH=10
   # When `dir` segment is on the last prompt line, try to shorten it enough to leave at least this
   # many columns for typing commands.
   typeset -g POWERLEVEL9K_DIR_MIN_COMMAND_COLUMNS=40
@@ -386,7 +388,7 @@
     if (( $1 )); then
       # Styling for up-to-date Git status.
       local       meta='%f'     # default foreground
-      local      clean='%76F'   # green foreground
+      local      clean='%84F'   # green foreground
       local   modified='%178F'  # yellow foreground
       local  untracked='%39F'   # blue foreground
       local conflicted='%196F'  # red foreground
@@ -502,7 +504,7 @@
   typeset -g POWERLEVEL9K_VCS_{STAGED,UNSTAGED,UNTRACKED,CONFLICTED,COMMITS_AHEAD,COMMITS_BEHIND}_MAX_NUM=-1
 
   # Icon color.
-  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=76
+  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=84
   typeset -g POWERLEVEL9K_VCS_LOADING_VISUAL_IDENTIFIER_COLOR=244
   # Custom icon.
   # typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_EXPANSION='⭐'
@@ -1013,7 +1015,7 @@
   # Custom icon.
   # typeset -g POWERLEVEL9K_NVM_VISUAL_IDENTIFIER_EXPANSION='⭐'
 
-  ############[ nodeenv: node.js environment (https://github.com/eparrotnin/nodeenv) ]############
+  ############[ nodeenv: node.js environment (https://github.com/ekalinin/nodeenv) ]############
   # Nodeenv color.
   typeset -g POWERLEVEL9K_NODEENV_FOREGROUND=70
   # Don't show Node version next to the environment name.
@@ -1607,43 +1609,56 @@
   function prompt_example() {
     p10k segment -f 208 -i '⭐' -t 'hello, %n'
   }
+
   function prompt_target() {
-    [ -f '/home/parrot/.local/target.txt' ] &&  export TARGET="$(cat /home/parrot/.local/target.txt)"
     [ -f '/home/parrot/.local/dn.txt' ] &&  export DN="$(cat /home/parrot/.local/dn.txt)"
+    [ -f '/home/parrot/.local/target.txt' ] &&  export TARGET="$(cat /home/parrot/.local/target.txt)"
     local targetcolor=#ff776f      
     local domain=""
     if [[ -n $TARGET ]]; then 
       if ip route get $TARGET >/dev/null 2>&1; then
-        targetcolor='#A6FF96'
+        targetcolor='#8bff70'
       fi 
       if [[ -n $DN ]]; then
-        domain+=" %F{123}󱌑  %F{123}$DN" 
+        domain+=" %F{123}- %F{#70add2}$DN" 
       fi
       p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
     else 
       local ip_pattern='([0-9]{1,3}\.){3}[0-9]{1,3}'
       if [[ $(pwd) =~ ${ip_pattern} ]]; then
         export TARGET=${MATCH}
-      elif ([ -d $WS ] && [ -f "$WS/.target.txt" ] && [[ "$(pwd)" =~ "$WS/.*" ]]) || ([ -f "./.target.txt" ]); then
-        export TARGET="$(cat $WS/.target.txt)"
-      fi
-      if ip route get $TARGET >/dev/null 2>&1; then
-        targetcolor='#A6FF96'
-      fi
-      if [[ -n $DN ]]; then
-        domain+=" %F{123}󱌑  %F{123}$DN" 
-      fi
-      if [[ -n $TARGET ]]; then 
+        if ip route get $TARGET >/dev/null 2>&1; then
+          targetcolor='#8bff70'
+        fi
+        if [[ -n $DN ]]; then
+          domain+=" %F{123}- %F{#70add2}$DN" 
+        fi
         p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
       fi
     fi
   }
+  function prompt_htb_icon()
+  {
+    local icon=''
+    local iconcolor="#15E0ED"
+    if [[ "$PWD/" =~ "/home/parrot/htb/.*" ]]; then
+      icon='󰆧'
+      iconcolor="#9FEF00"
+    fi
+    if [[ $USER == "root" ]]; then
+      iconcolor="#af0040"
+    fi
+    #p10k segment -i '󰆧' -f $iconcolor
+    p10k segment -i $icon -f $iconcolor
+
+  }
   function prompt_userws() { 
     [ -f '/home/parrot/.local/workspace.txt' ] &&  export WS="$(cat /home/parrot/.local/workspace.txt)"
     if [ -d "$WS" ]; then
-      local wsname=" %B[%b%F{#72b9f7}$(echo -n $WS | awk -F'/' '{print $NF}')%f%B]%b" 
+      local wsname=" %B• %b%F{#309fff}$(echo -n $WS | awk -F'/' '{print $NF}')%f" 
     fi
-    local user="%F{#05EEFF}$USER%f"
+    # local user="%F{#09fa8c}$USER%f"
+    local user="%F{#eeeeff}$USER%f"
     if [[ $USER == "root" ]]; then
       user="%F{#ff4038}%B$USER%b%f"
     fi
@@ -1652,10 +1667,10 @@
   }
 
   function prompt_vpn() {
-    local utun=$(ifconfig | grep -A2 tun | grep 'inet ')
+    local utun=$(ifconfig | grep -A2 utun | grep 'inet ')
 
     if [[ -n $utun ]]; then
-      local ip=$(echo $utun | awk '{print $2}')
+      local ip=$(echo $utun | cut -f 2 -d ' ')
       p10k segment -f '#afc0ff' -i '󰴳' -t"%F{#20a0ff}$ip"
     fi
   }
