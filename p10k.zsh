@@ -1639,11 +1639,20 @@
   }
   function prompt_htb_icon()
   {
-    local iconcolor="#9FEF00"
-    if [[ $USER == "root" ]]; then
-      iconcolor="#8f00ff"
+    local iconcolor="#009FEF"
+    local icon='󰀶'
+    local icon='󰘳'
+    if [[ $USER == "root" ]]; then 
+      iconcolor="#ff5f50"
     fi
-    p10k segment -i '󰆧' -f $iconcolor
+    if [[ "$PWD/" =~ "/Users/nachh/Hacking/htb/*." ]]; then 
+      iconcolor="#9FEF00" 
+      icon='󰆧'
+      if [[ $USER == "root" ]]; then 
+        iconcolor="#8f00ff"
+      fi
+    fi
+    p10k segment -i $icon -f $iconcolor
 
   }
   function prompt_userws() { 
