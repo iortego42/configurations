@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-TryExec=/home/parrot/.cargo/bin/alacritty
-Exec=/home/parrot/.cargo/bin/alacritty
-Icon=/home/parrot/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alacritty-0.12.3/extra/logo/alacritty-simple.svg
+TryExec=alacritty
+Exec=alacritty
+Icon=Alacritty
 Terminal=false
 Categories=System;TerminalEmulator;
 

@@ -28,6 +28,8 @@ export PATH=~/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/u
 export PATH="$HOME/.config/bin:$PATH"
 # BINARIOS YARN
 export PATH="$HOME/.yarn/bin:$PATH"
+# BINARIOS CARGO
+export PATH="$PATH:$HOME/.cargo/bin"
 # alias
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
