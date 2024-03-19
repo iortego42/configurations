@@ -85,9 +85,9 @@ alias l='lsd -F --group-dirs=first'
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=117,underline
-ZSH_HIGHLIGHT_STYLES[precommand]=fg=117,underline
-ZSH_HIGHLIGHT_STYLES[arg0]=fg=117
+ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=4,underline
+ZSH_HIGHLIGHT_STYLES[precommand]=fg=4,underline
+ZSH_HIGHLIGHT_STYLES[arg0]=fg=4
 
 source /opt/homebrew/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 export EDITOR=nvim
@@ -143,3 +143,10 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 source $HOME/powerlevel10k/powerlevel10k.zsh-theme
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# bun completions
+[ -s "/Users/nachh/.bun/_bun" ] && source "/Users/nachh/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

@@ -163,7 +163,7 @@
   # POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR=' ' below.
   typeset -g POWERLEVEL9K_SHOW_RULER=false
   typeset -g POWERLEVEL9K_RULER_CHAR='─'        # reasonable alternative: '·'
-  typeset -g POWERLEVEL9K_RULER_FOREGROUND=242
+  typeset -g POWERLEVEL9K_RULER_FOREGROUND=#6a6a6a
 
   # Filler between left and right prompt on the first prompt line. You can set it to '·' or '─'
   # to make it easier to see the alignment between left and right prompt and to separate prompt
@@ -174,7 +174,7 @@
   typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR=' '
   if [[ $POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR != ' ' ]]; then
     # The color of the filler.
-    typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND=242
+    typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND=#6a6a6a
     # Add a space between the end of left prompt and the filler.
     typeset -g POWERLEVEL9K_LEFT_PROMPT_LAST_SEGMENT_END_SYMBOL=' '
     # Add a space between the filler and the start of right prompt.
@@ -197,7 +197,7 @@
   ################################[ prompt_char: prompt symbol ]################################
   # Green prompt symbol if the last command succeeded.
   # '#80ff7f'
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#fff'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#6a6a6a'
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=1
   # Default prompt symbol.
@@ -216,17 +216,17 @@
 
   ##################################[ dir: current directory ]##################################
   # Default current directory color.
-  typeset -g POWERLEVEL9K_DIR_FOREGROUND=#ffe060
+  typeset -g POWERLEVEL9K_DIR_FOREGROUND=11
   # If directory is too long, shorten some of its segments to the shortest possible unique
   # prefix. The shortened directory can be tab-completed to the original.
   typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
   # Replace removed segment suffixes with this symbol.
   typeset -g POWERLEVEL9K_SHORTEN_DELIMITER=
   # Color of the shortened directory segments.
-  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=#EFEF6F
+  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=3
   # Color of the anchor directory segments. Anchor segments are never shortened. The first
   # segment is always an anchor.
-  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=#efefaf
+  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=0
   # Display anchor directory segments in bold.
   typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=true
   # Don't shorten directories that contain any of these files. They are anchors.
@@ -314,17 +314,17 @@
       "/Users/nachh/Hacking/htb(|/*)"    HTB      '󰆧'
       '~(|/*)'       HOME     '󱂵'
       '*'            DEFAULT  '')
-    typeset -g POWERLEVEL9K_DIR_HOME_FOREGROUND=#5070EF
-    typeset -g POWERLEVEL9K_DIR_HOME_ANCHOR_FOREGROUND=#AFEFeF
-    typeset -g POWERLEVEL9K_DIR_HOME_SHORTENED_FOREGROUND=#20a0bF
+    typeset -g POWERLEVEL9K_DIR_HOME_FOREGROUND=4
+    typeset -g POWERLEVEL9K_DIR_HOME_ANCHOR_FOREGROUND=0
+    typeset -g POWERLEVEL9K_DIR_HOME_SHORTENED_FOREGROUND=12
   #
-    typeset -g POWERLEVEL9K_DIR_HTB_FOREGROUND=#9FEF00
-    typeset -g POWERLEVEL9K_DIR_HTB_ANCHOR_FOREGROUND=#AFEF7F
-    typeset -g POWERLEVEL9K_DIR_HTB_SHORTENED_FOREGROUND=#0FEF7F
+    typeset -g POWERLEVEL9K_DIR_HTB_FOREGROUND=2
+    typeset -g POWERLEVEL9K_DIR_HTB_ANCHOR_FOREGROUND=0
+    typeset -g POWERLEVEL9K_DIR_HTB_SHORTENED_FOREGROUND=10
   #
-    typeset -g POWERLEVEL9K_DIR_DEFAULT_NOT_WRITABLE_FOREGROUND=#ff6060
-    typeset -g POWERLEVEL9K_DIR_DEFAULT_NOT_WRITABLE_ANCHOR_FOREGROUND=#efb0bf
-    typeset -g POWERLEVEL9K_DIR_DEFAULT_NOT_WRITABLE_SHORTENED_FOREGROUND=#EF9F9F
+    typeset -g POWERLEVEL9K_DIR_DEFAULT_NOT_WRITABLE_FOREGROUND=1
+    typeset -g POWERLEVEL9K_DIR_DEFAULT_NOT_WRITABLE_ANCHOR_FOREGROUND=0
+    typeset -g POWERLEVEL9K_DIR_DEFAULT_NOT_WRITABLE_SHORTENED_FOREGROUND=9
   # Whenever the current directory is ~/work or a subdirectory of ~/work, it gets styled with one
   # of the following classes depending on its writability and existence: WORK, WORK_NOT_WRITABLE or
   # WORK_NON_EXISTENT.
@@ -388,10 +388,10 @@
     if (( $1 )); then
       # Styling for up-to-date Git status.
       local       meta='%f'     # default foreground
-      local      clean='%84F'   # green foreground
-      local   modified='%178F'  # yellow foreground
-      local  untracked='%39F'   # blue foreground
-      local conflicted='%196F'  # red foreground
+      local      clean='%10F'   # green foreground
+      local   modified='%11F'  # yellow foreground
+      local  untracked='%12F'   # blue foreground
+      local conflicted='%9F'  # red foreground
     else
       # Styling for incomplete and stale Git status.
       local       meta='%244F'  # grey foreground
@@ -504,7 +504,7 @@
   typeset -g POWERLEVEL9K_VCS_{STAGED,UNSTAGED,UNTRACKED,CONFLICTED,COMMITS_AHEAD,COMMITS_BEHIND}_MAX_NUM=-1
 
   # Icon color.
-  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=84
+  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=10
   typeset -g POWERLEVEL9K_VCS_LOADING_VISUAL_IDENTIFIER_COLOR=244
   # Custom icon.
   # typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_EXPANSION='⭐'
@@ -1613,43 +1613,52 @@
   function prompt_target() {
     [ -f '/Users/nachh/.local/dn.txt' ] &&  export DN="$(cat /Users/nachh/.local/dn.txt)"
     [ -f '/Users/nachh/.local/target.txt' ] &&  export TARGET="$(cat /Users/nachh/.local/target.txt)"
-    local targetcolor=#ff776f      
+    local targetcolor=1
     local domain=""
     if [[ -n $TARGET ]]; then 
       if ip route get $TARGET >/dev/null 2>&1; then
-        targetcolor='#8bff70'
+        targetcolor=2
       fi 
       if [[ -n $DN ]]; then
-        domain+=" %F{123}- %F{#70add2}$DN" 
+        domain+=" %F{#000}%B-%b %F{3}$DN" 
       fi
-      p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
+      p10k segment -i '%F{1}󰓥%f' -f $targetcolor -t "$TARGET$domain"
     else 
       local ip_pattern='([0-9]{1,3}\.){3}[0-9]{1,3}'
       if [[ $(pwd) =~ ${ip_pattern} ]]; then
         export TARGET=${MATCH}
-        if ip route get $TARGET >/dev/null 2>&1; then
-          targetcolor='#8bff70'
-        fi
-        if [[ -n $DN ]]; then
-          domain+=" %F{123}- %F{#70add2}$DN" 
-        fi
-        p10k segment -i '%F{9}󰓥%f' -f $targetcolor -t "$TARGET$domain"
+      elif [ -d $WS ] && [ -f "$WS/.target.txt" ] && [[ "$(pwd)" =~ "$WS/.*" ]]; then
+        export TARGET="$(cat $WS/.target.txt)"
+      elif [ -f "./.target.txt" ]; then 
+        export TARGET="$(cat ./.target.txt)"
+      fi
+      if ip route get $TARGET >/dev/null 2>&1; then
+        targetcolor=2
+      fi
+      if [[ -n $DN ]]; then
+        domain+=" %F{#000}%B-%b %F{3}$DN" 
+      fi
+      if [[ -n $TARGET ]]; then 
+        p10k segment -i '%F{1}󰓥%f' -f $targetcolor -t "$TARGET$domain"
       fi
     fi
   }
   function prompt_htb_icon()
   {
-    local iconcolor="#009FEF"
+    local iconcolor=0
     local icon='󰀶'
     local icon='󰘳'
     if [[ $USER == "root" ]]; then 
-      iconcolor="#ff5f50"
+      iconcolor="#df0f30"
+      iconcolor=1
     fi
     if [[ "$PWD/" =~ "/Users/nachh/Hacking/htb/*." ]]; then 
-      iconcolor="#9FEF00" 
+      #iconcolor="#9FEF00" 
+      iconcolor=2
       icon='󰆧'
       if [[ $USER == "root" ]]; then 
-        iconcolor="#8f00ff"
+        iconcolor="#6f00df"
+	iconcolor=1
       fi
     fi
     p10k segment -i $icon -f $iconcolor
@@ -1674,7 +1683,7 @@
 
     if [[ -n $utun ]]; then
       local ip=$(echo $utun | cut -f 2 -d ' ')
-      p10k segment -f '#afc0ff' -i '󰴳' -t"%F{#20a0ff}$ip"
+      p10k segment -f '#20a0ff' -i '󰴳' -t"%F{#20a}$ip"
     fi
   }
 
